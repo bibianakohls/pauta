@@ -1,0 +1,1576 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Aprovação de Pauta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito:wght@800;900&family=Poppins:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+/* Layout: coluna única de até 1120px; cada post é uma ficha com a prévia à esquerda e o texto + aprovação à direita */
+:root {
+  --bg: #F3F4F1;
+  --surface: #FFFFFF;
+  --sunken: #E9ECE7;
+  --ink: #18201C;
+  --muted: #5B6560;
+  --line: #D9DED8;
+  --accent: #1E5B4A;
+  --accent-ink: #FFFFFF;
+  --ok: #1F7A45;
+  --ok-bg: #E3F3E8;
+  --warn: #A8550F;
+  --warn-bg: #FBEBDC;
+  --wait: #5B6560;
+  --wait-bg: #ECEEEB;
+  --mark: #FFEFB0;
+  --mark-ink: #4F3B00;
+  --focus: #2B7FFF;
+  /* cores das artes (iguais nos dois temas, porque são o conteúdo do post) */
+  /* Mundo Kids, tirado do perfil: azul royal, verde-limão e rosa, títulos com contorno branco */
+  --mk-blue: #2F5BB4;
+  --mk-blue-deep: #1D2F6B;
+  --mk-lime: #9BCB3C;
+  --mk-pink: #EE4F93;
+  --mk-purple: rgba(98, 72, 168, 0.88);
+  --mk-red: #E5322D;
+  --mk-white: #FFFFFF;
+  /* Plaza Rivel: caramelo e grafite do perfil */
+  --pr-caramel: #BD8A4E;
+  --pr-caramel-deep: #8E5F2B;
+  --fz-green: #2E5B36;
+  --fz-honey: #F2B33D;
+  --fz-cream: #FFF8E6;
+  --shade: rgba(10, 14, 12, 0.72);
+  /* etiqueta sobre a imagem (igual nos dois temas, porque fica em cima da foto) */
+  --tag-bg: rgba(14, 18, 16, 0.72);
+  --tag-ink: #FFFFFF;
+  --f-display: "Bricolage Grotesque", "Trebuchet MS", "Segoe UI", sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mk-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --f-mk-body: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --f-fz: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --f-fz-logo: "Nunito", "Poppins", "Segoe UI", sans-serif;
+  --fz-white: #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101513; --surface: #18201C; --sunken: #212A26; --ink: #E6ECE8; --muted: #9AA6A0; --line: #2C3631;
+    --accent: #7CC5AA; --accent-ink: #0E1A15; --ok: #74D49E; --ok-bg: #16301F; --warn: #F0A766; --warn-bg: #3A2412;
+    --wait: #A3ADA8; --wait-bg: #252D29; --mark: #4A3D0C; --mark-ink: #FFE7A0; --focus: #7FB2FF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101513; --surface: #18201C; --sunken: #212A26; --ink: #E6ECE8; --muted: #9AA6A0; --line: #2C3631;
+  --accent: #7CC5AA; --accent-ink: #0E1A15; --ok: #74D49E; --ok-bg: #16301F; --warn: #F0A766; --warn-bg: #3A2412;
+  --wait: #A3ADA8; --wait-bg: #252D29; --mark: #4A3D0C; --mark-ink: #FFE7A0; --focus: #7FB2FF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 32px 72px; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padding: 0 3px; }
+
+/* topo */
+.top { display: grid; gap: 10px; }
+.top h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 800; }
+.top .lead { color: var(--muted); max-width: 64ch; }
+.notice { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: var(--muted); }
+
+/* abas */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.tab { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 15px/1 var(--f-body); padding: 11px 16px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+.tab .dot { width: 10px; height: 10px; border-radius: 50%; }
+.tab[data-kind="fz"] .dot { background: var(--fz-honey); box-shadow: inset 0 0 0 2px var(--fz-green); }
+.tab[data-kind="pr"] .dot { background: var(--pr-caramel); box-shadow: inset 0 0 0 2px var(--pr-caramel-deep); }
+.tab[data-kind="mk"] .dot { background: var(--mk-blue); box-shadow: inset 0 0 0 2px var(--mk-lime); }
+.tab .count { font-weight: 500; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tab[aria-selected="true"] .count { color: var(--bg); opacity: 0.75; }
+
+/* cabeçalho da marca */
+.brand { display: grid; gap: 22px; }
+.brand-head { display: grid; gap: 12px; }
+.brand-head h2 { font-size: clamp(24px, 3.6vw, 32px); font-weight: 700; }
+.brand-head .intro { max-width: 70ch; }
+.summary { display: flex; flex-wrap: wrap; gap: 8px; }
+.brand-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.brand-notes section { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.brand-notes h3 { font-family: var(--f-body); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.brand-notes ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; }
+.week-label { font-family: var(--f-display); font-size: 18px; font-weight: 700; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding-top: 6px; }
+.week-label span { font-family: var(--f-body); font-size: 14px; font-weight: 500; color: var(--muted); }
+
+/* ficha do post */
+.post { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr); gap: 28px; scroll-margin-top: 16px; }
+@media (max-width: 820px) { .post { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 20px; } }
+.preview { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.detail { display: grid; gap: 18px; align-content: start; min-width: 0; }
+
+/* cartão estilo Instagram */
+.ig { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+.ig-top { display: flex; align-items: center; gap: 10px; padding: 9px 12px; font-size: 13px; }
+.ig-av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font: 800 11px/1 var(--f-body); color: var(--mk-white); flex: none; }
+.ig-av.fz { background: var(--fz-green); }
+.ig-av.pr { background: var(--pr-caramel) url("img/plaza/avatar.jpg") center / cover; color: transparent; }
+.ig-av.mk { background: var(--mk-blue) url("img/mk-logo.jpg") center / cover; color: transparent; }
+.ig-top b { font-weight: 700; }
+.ig-top .fmt { margin-left: auto; color: var(--muted); font-size: 12px; }
+.ig-top b, .ig-top .fmt { white-space: nowrap; }
+.design-tag.inline { position: static; margin-left: auto; background: var(--sunken); color: var(--muted); font-size: 9.5px; letter-spacing: 0.04em; padding: 5px 7px; white-space: nowrap; }
+.design-tag.inline + .fmt { margin-left: 0; }
+.media { position: relative; }
+.design-tag { position: absolute; top: 10px; left: 10px; z-index: 2; pointer-events: none; background: var(--tag-bg); color: var(--tag-ink); font: 700 11px/1 var(--f-body); letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 9px; border-radius: 999px; }
+.slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; container-type: inline-size; }
+.slides::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; scroll-snap-align: start; aspect-ratio: 4 / 5; position: relative; overflow: hidden; max-width: 100%; }
+.slides.reel .slide { aspect-ratio: 9 / 16; }
+.slide img, .slide video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.car-nav { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 8px 0 10px; }
+.car-nav button { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font: 600 15px/1 var(--f-body); }
+.car-nav button:disabled { opacity: 0.35; cursor: default; }
+.dots { display: flex; gap: 5px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.dots i.on { background: var(--accent); }
+.slide.free { aspect-ratio: auto; }
+.slide.free img { height: auto; }
+.preview .cap { font-size: 12px; color: var(--muted); }
+
+/* artes: Mundo Kids */
+/* padrão do perfil: foto clara inteira, título condensado verde/rosa com contorno branco, faixa azul, caixa roxa translúcida, selo do logo */
+.mk-title { font: 400 12cqw/0.98 var(--f-mk-display); text-transform: uppercase; letter-spacing: 0.005em; transform: rotate(-2deg);
+  text-shadow: -0.6cqw -0.6cqw 0 var(--mk-white), 0.6cqw -0.6cqw 0 var(--mk-white), -0.6cqw 0.6cqw 0 var(--mk-white), 0.6cqw 0.6cqw 0 var(--mk-white), 0 -0.8cqw 0 var(--mk-white), 0 0.8cqw 0 var(--mk-white), -0.8cqw 0 0 var(--mk-white), 0.8cqw 0 0 var(--mk-white), 1cqw 1.6cqw 0 var(--mk-blue-deep); }
+.mk-title span { display: block; }
+.mk-title .pk { color: var(--mk-pink); }
+.mk-title .lm { color: var(--mk-lime); }
+.mk-pill { display: inline-block; margin-top: 2.6cqw; background: var(--mk-blue); color: var(--mk-white); font: 400 4.8cqw/1 var(--f-mk-display); text-transform: uppercase; letter-spacing: 0.02em; padding: 1.8cqw 3.6cqw; border-radius: 2.4cqw; }
+.mk-box { background: var(--mk-purple); color: var(--mk-white); font: 600 3.7cqw/1.35 var(--f-mk-body); padding: 3cqw 3.6cqw; border-radius: 3cqw; text-align: left; white-space: pre-line; }
+.mk-box mark { background: var(--mk-lime); color: var(--mk-blue-deep); }
+.slide .mk-logo { position: absolute; width: 17cqw; height: 17cqw; border-radius: 50%; left: 50%; transform: translateX(-50%); box-shadow: 0 0 0 0.7cqw var(--mk-white); object-fit: cover; }
+.mk-photo .mk-fade { position: absolute; inset: auto 0 0 0; height: 58%; background: linear-gradient(to top, rgba(29, 47, 107, 0.55), transparent); }
+.mk-photo .mk-stack { position: absolute; left: 6cqw; right: 6cqw; bottom: 25cqw; text-align: center; }
+.mk-photo .mk-logo { bottom: 4cqw; }
+.mk-photo .mk-box { position: absolute; top: 15cqw; left: 6cqw; max-width: 58cqw; }
+/* variação para fotos com rostos no meio: título encostado embaixo e selo no topo */
+.mk-photo.low .mk-stack { bottom: 5cqw; }
+.mk-photo.low .mk-title { font-size: 10.5cqw; }
+.mk-photo.low .mk-logo { bottom: auto; top: 4cqw; width: 14cqw; height: 14cqw; }
+.mk-photo.low .mk-fade { height: 42%; }
+.mk-fip { position: absolute; top: 0; right: 0; background: var(--mk-white); color: var(--mk-red); font: 400 7cqw/1 var(--f-mk-display); padding: 4cqw 5cqw 4cqw 7cqw; border-bottom-left-radius: 14cqw; }
+.mk-text { background: var(--mk-blue); display: grid; align-content: center; justify-items: center; text-align: center; gap: 2cqw; padding: 26cqw 8cqw 10cqw; }
+.mk-text.pink { background: var(--mk-pink); }
+.mk-text .mk-logo { top: 6cqw; }
+.mk-text .mk-box { margin-top: 3cqw; max-width: 74cqw; }
+.mk-text::before { content: ""; position: absolute; width: 70cqw; height: 70cqw; border-radius: 50%; right: -26cqw; bottom: -28cqw; background: rgba(255, 255, 255, 0.08); }
+.mk-text::after { content: "\2726"; position: absolute; left: 9cqw; bottom: 12cqw; color: rgba(255, 255, 255, 0.35); font-size: 9cqw; line-height: 1; }
+.mk-text.pink .mk-title .pk { color: var(--mk-blue); }
+.mk-cal { background: var(--mk-blue); display: grid; align-content: start; justify-items: center; gap: 1.6cqw; padding: 25cqw 7cqw 6cqw; }
+.mk-cal .mk-logo { top: 5cqw; }
+.mk-cal .small { font: 400 5cqw/1 var(--f-mk-display); text-transform: uppercase; color: var(--mk-white); letter-spacing: 0.02em; }
+.mk-cal .mk-title { font-size: 11cqw; transform: none; }
+.mk-cal .sheet { width: 100%; background: var(--mk-white); border-radius: 3.4cqw; padding: 3.4cqw 3cqw; display: grid; gap: 2cqw; margin-top: 1.6cqw; }
+.mk-cal .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.6cqw 1.2cqw; text-align: center; font: 700 3.6cqw/1 var(--f-mk-body); color: var(--mk-blue-deep); font-variant-numeric: tabular-nums; }
+.mk-cal .grid span { padding: 1.3cqw 0; }
+.mk-cal .grid span.h { background: var(--mk-blue); color: var(--mk-white); border-radius: 1cqw; font-size: 2.6cqw; padding: 1cqw 0; }
+.mk-cal .hint { font: 600 3cqw/1.3 var(--f-mk-body); color: var(--mk-blue); text-align: center; }
+.reel-text { position: absolute; left: 6cqw; right: 6cqw; top: 20cqw; text-align: center; }
+.reel-text.mk-title { font-size: 10.5cqw; }
+.reel-badge { position: absolute; right: 4cqw; bottom: 4cqw; font: 700 3.4cqw/1 var(--f-body); color: var(--mk-white); background: rgba(0,0,0,0.5); padding: 1.6cqw 2.4cqw; border-radius: 999px; }
+/* artes: Fazenda Paraíso */
+/* padrão do perfil: foto inteira, texto branco, logo no canto superior direito, data/tema com fio à esquerda */
+.fz-photo .shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(12,22,14,0.78) 0%, rgba(12,22,14,0.25) 42%, transparent 60%), linear-gradient(to bottom left, rgba(12,22,14,0.35), transparent 30%); }
+.fz-logo { position: absolute; top: 6cqw; right: 6cqw; color: var(--fz-white); font: 900 8cqw/0.9 var(--f-fz-logo); text-align: center; letter-spacing: -0.01em; text-shadow: 0 0.4cqw 1.6cqw rgba(0,0,0,0.35); }
+.fz-logo small { display: block; font: 600 2.1cqw/1 var(--f-fz); letter-spacing: 0.32em; margin: 0 0 0.9cqw 0.32em; }
+.fz-block { position: absolute; left: 7cqw; right: 7cqw; bottom: 8cqw; color: var(--fz-white); text-shadow: 0 0.3cqw 1.4cqw rgba(0,0,0,0.35); }
+.fz-l1 { font: 500 6.2cqw/1.05 var(--f-fz); }
+.fz-l2 { font: 700 12.6cqw/0.98 var(--f-fz); letter-spacing: -0.01em; }
+.fz-l3 { font: 400 4.3cqw/1.3 var(--f-fz); margin-top: 1.8cqw; }
+.fz-date { display: flex; align-items: center; gap: 3cqw; margin-top: 4.4cqw; font: 700 3.6cqw/1 var(--f-fz); letter-spacing: 0.16em; text-transform: uppercase; }
+.fz-date i { flex: 1; height: 0.35cqw; min-height: 1px; background: var(--fz-white); opacity: 0.85; }
+/* material ainda não recebido */
+.pending { display: grid; place-content: center; text-align: center; gap: 2cqw; padding: 10cqw; color: var(--muted); background: repeating-linear-gradient(135deg, var(--sunken) 0 14px, var(--surface) 14px 28px); }
+.pending b { font: 700 5.4cqw/1.2 var(--f-display); color: var(--ink); }
+.pending span { font-size: 4cqw; }
+
+/* texto do post */
+.meta { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: var(--sunken); color: var(--ink); white-space: nowrap; }
+.chip.date { background: var(--ink); color: var(--bg); font-variant-numeric: tabular-nums; }
+.chip.quadro { background: var(--pr-caramel-deep); color: var(--mk-white); }
+.chip.ads { background: var(--warn-bg); color: var(--warn); }
+.headline .eyebrow { margin-bottom: 4px; }
+.headline h3 { font-size: clamp(21px, 2.6vw, 26px); font-weight: 700; line-height: 1.15; }
+.block { display: grid; gap: 6px; }
+.headline h3.only-photo { font-family: var(--f-body); font-size: 17px; font-weight: 600; color: var(--muted); }
+.service { display: grid; gap: 4px; border-left: 3px solid var(--pr-caramel); padding: 2px 0 2px 12px; }
+.service p { font-weight: 600; }
+.handles { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.handles span { font-size: 13px; color: var(--accent); font-weight: 600; }
+.plain { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.block-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.caption { white-space: pre-line; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; max-width: 68ch; }
+.btn-copy { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 13px/1 var(--f-body); padding: 7px 11px; border-radius: 8px; cursor: pointer; }
+.steps { margin: 0; padding-left: 22px; display: grid; gap: 3px; }
+.steps li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+.todo { margin: 0; padding: 0; list-style: none; display: grid; gap: 5px; }
+.todo li { display: flex; gap: 8px; align-items: baseline; }
+.todo li::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 2px; border: 2px solid var(--warn); transform: translateY(1px); }
+.source { font-size: 13px; color: var(--muted); }
+
+/* aprovação */
+.review { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 14px; }
+.review-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.pill { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; }
+.pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.pill.pendente { background: var(--wait-bg); color: var(--wait); }
+.pill.aprovado { background: var(--ok-bg); color: var(--ok); }
+.pill.ajuste { background: var(--warn-bg); color: var(--warn); }
+.review-sub { font-size: 13px; color: var(--muted); }
+.thread { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.thread li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; }
+.thread img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.thread .who { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+.thread .who b { color: var(--ink); font-weight: 700; }
+.thread .kind { font-weight: 700; }
+.thread .kind.aprovado { color: var(--ok); }
+.thread .kind.ajuste { color: var(--warn); }
+.thread .txt { white-space: pre-line; overflow-wrap: anywhere; }
+.form { display: grid; gap: 8px; }
+.form label { font-size: 13px; font-weight: 600; }
+.form textarea { width: 100%; min-height: 76px; resize: vertical; font: 400 15px/1.45 var(--f-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.actions button { appearance: none; font: 700 14px/1 var(--f-body); padding: 11px 16px; border-radius: 10px; cursor: pointer; border: 1px solid transparent; }
+.actions .approve { background: var(--ok); color: var(--surface); }
+.actions .adjust { background: var(--surface); color: var(--warn); border-color: var(--warn); }
+.actions button:disabled { opacity: 0.45; cursor: default; }
+.form-msg { font-size: 13px; color: var(--muted); min-height: 1.2em; }
+.mine { font-size: 13px; color: var(--muted); display: inline-flex; gap: 4px; align-items: baseline; }
+.link-btn { appearance: none; border: 0; background: none; padding: 0 2px; font: 600 13px/1.2 var(--f-body); color: var(--accent); text-decoration: underline; cursor: pointer; }
+.link-btn:disabled { opacity: 0.4; cursor: default; }
+.hint { font-size: 12.5px; color: var(--muted); }
+.actions button[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--ink); }
+.gate { font-size: 13px; color: var(--muted); background: var(--sunken); border-radius: 8px; padding: 9px 12px; }
+
+.next { justify-self: start; appearance: none; border: 0; background: var(--accent); color: var(--accent-ink); font: 700 15px/1 var(--f-body); padding: 14px 18px; border-radius: 12px; cursor: pointer; }
+.foot { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+@media (prefers-reduced-motion: reduce) { .slides { scroll-behavior: auto; } }
+.whoami { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 14px; font-weight: 600; }
+.whoami input { font: 500 15px/1.2 var(--f-body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; min-width: 0; width: min(260px, 100%); }
+.whoami span { font-weight: 500; color: var(--muted); font-size: 13px; }
+.thread .initial { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--sunken); color: var(--ink); font: 700 12px/1 var(--f-body); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Grupo FIP · Social media · Novembro 2026</span>
+    <h1>Aprovação de Pauta</h1>
+    <p class="lead">Veja cada post e aprove, ou escreva o que quer alterar. Trechos <mark>marcados em amarelo</mark> ainda precisam ser confirmados antes de publicar.</p>
+    <label class="whoami" for="meu-nome">Seu nome <input id="meu-nome" type="text" maxlength="60" autocomplete="name" placeholder="Ex.: Ana Paula"><span>aparece junto da sua aprovação</span></label>
+    <p class="notice" id="notice" hidden></p>
+  </header>
+  <nav class="tabs" role="tablist" aria-label="Marcas" id="tabs"></nav>
+  <main id="panels"></main>
+  <p class="foot">As decisões e comentários ficam salvos numa planilha da equipe e aparecem para todos que abrem esta página. Cada pessoa usa o próprio nome e pode trocar, desfazer ou apagar só o que ela mesma registrou.</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- conteúdo da pauta ---------- */
+  const BRANDS = [
+    {
+      id: "fazenda", kind: "fz", name: "Fazenda Paraíso", initials: "FP",
+      intro: "Registro da experiência do mel feita na fazenda em 3 de novembro. Um post de feed para manter o perfil ativo com material real e recente.",
+      notes: [
+        { title: "Direção", items: ["Natureza, tranquilidade e experiências diferenciadas, como pede o briefing.", "Sem anunciar a experiência como produto enquanto ela não estiver aberta ao público."] },
+        { title: "Identidade visual", items: ["Arte no padrão do perfil: foto inteira, texto branco, logo no canto superior direito e o tema com fio à esquerda.", "Na prévia, o logo e as fontes são aproximados. No Canva, usar o logo e as fontes oficiais."] },
+        { title: "Para os stories", items: ["Mesma foto com o texto “Prontos para a experiência do mel 🐝”."] }
+      ],
+      weeks: [{ label: "", span: "", posts: ["fz-apicultor"] }],
+      next: "mundokids"
+    },
+    {
+      id: "mundokids", kind: "mk", name: "Mundo Kids", initials: "MK",
+      intro: "Retomada do perfil com 2 posts por semana em novembro. Um post por semana vende o salão de festas para novembro e dezembro, que está com procura fraca. O outro traz visita ao parque no fim de semana.",
+      notes: [
+        { title: "Regras que os posts respeitam", items: ["Valor do aluguel do salão nunca aparece. Datas: sempre “consulte disponibilidade”.", "Festas: novembro e dezembro. Telefone no formato 47 98807-4556. Valores sem espaço: R$40.", "O parque não é exclusivo da festa e não existe pacote: decoração e buffet ficam com o cliente.", "Meias obrigatórias; menores de 4 anos com um adulto junto. Horários conforme a agenda da FIP.", "Brusque sempre com (SC)."] },
+        { title: "Identidade visual", items: ["Artes no padrão do perfil: título verde e rosa com contorno branco, faixa azul, caixa roxa e o selo do Mundo Kids.", "Passaporte R$40 (criança, meia-entrada) e horários conforme a agenda da FIP."] },
+        { title: "Sobre as imagens", items: ["Fotos profissionais em alta sempre que existem, todas com o mesmo tratamento de cor e nitidez.", "Os dois reels já estão editados, sem música. O áudio em alta entra direto no Instagram.","Fotos de Páscoa, Dia dos Pais e Copa ficaram de fora por serem de datas que já passaram."] }
+      ],
+      weeks: [
+        { label: "Semana 1", span: "2 a 8 de novembro", posts: ["mk-01", "mk-02"] },
+        { label: "Semana 2", span: "9 a 15 de novembro", posts: ["mk-03", "mk-04"] },
+        { label: "Semana 3", span: "16 a 22 de novembro · sexta 20/11 é feriado", posts: ["mk-05", "mk-06"] },
+        { label: "Semana 4", span: "23 a 29 de novembro · Black Friday 27/11", posts: ["mk-07", "mk-08"] }
+      ]
+    }
+  ];
+
+  const POSTS = {
+    "fz-apicultor": {
+      brand: "fazenda", date: "Data a definir", dateNote: "sugestão: qua 4/11", format: "Feed · foto 4:5", goal: "Manter o perfil ativo", ads: false,
+      headline: "Um dia de apicultor na Fazenda Paraíso",
+      slides: [{ t: "fzphoto", img: "img/fazenda-apicultor.jpg", alt: "Duas pessoas com traje amarelo de apicultor segurando um quadro de favo ao lado de um UTV, com o morro verde da fazenda ao fundo", l1: "Um dia de", l2: "Apicultor", l3: "na Fazenda Paraíso", tag: "Experiência do mel" }],
+      caption: "Traje completo e muita empolgação para uma experiência do mel aqui na Fazenda Paraíso. Um dia para conhecer de perto o trabalho das abelhas, do favo ao mel. 🐝🍯",
+      todo: ["Se a experiência do mel vai ser oferecida a visitantes. Se sim, a legenda pode terminar com um convite"],
+      source: "Foto enviada pela equipe em 03/11, recortada para 4:5."
+    },
+    "mk-01": {
+      brand: "mundokids", date: "Qua 4/11", format: "Carrossel · 5 cards", goal: "Vender festas", ads: true,
+      headline: "Sua festa de fim de ano no Mundo Kids",
+      slides: [
+        { t: "mkphoto", img: "img/mk-festa-capa.jpg", alt: "Mesa de aniversário decorada em tons de rosa, com balões e borboletas", title: "Sua festa\nde fim de ano", pill: "No Mundo Kids" },
+        { t: "mkphoto", img: "img/mk-salao.jpg", alt: "Salão de festas com mesas redondas e toalhas brancas", title: "Nosso salão\nde festas", pill: "Até 50 adultos sentados" },
+        { t: "mktext", title: "O que está\nincluso", box: "20 ingressos para o parque, monitoras para crianças acima de 3 anos, limpeza, estacionamento e ar-condicionado" },
+        { t: "mkphoto", img: "img/mk-festa-bolinhas.jpg", alt: "Crianças brincando no parque", title: "20 ingressos\nno parque", pill: "Inclusos no aluguel" },
+        { t: "mktext", tone: "pink", title: "Novembro\ne dezembro", pill: "Consulte disponibilidade", box: "WhatsApp 47 98807-4556" }
+      ],
+      caption: "Festa de aniversário com clima de fim de ano? 🎈 O salão do Mundo Kids fica anexo ao parque, recebe até 50 adultos sentados e já inclui 20 ingressos para a criançada brincar, monitoras, limpeza, estacionamento e ar-condicionado.\n\nConsulte a disponibilidade para novembro e dezembro pelo WhatsApp 47 98807-4556 e garanta a sua data!",
+      cta: "Garanta sua data pelo WhatsApp",
+      source: "Pasta aniversários e fotos do parque. Itens inclusos e WhatsApp da mensagem padrão do salão. O valor do aluguel não aparece no post."
+    },
+    "mk-02": {
+      brand: "mundokids", date: "Sex 6/11", format: "Reels · 13 s", goal: "Trazer visita", ads: false,
+      headline: "Fim de semana é no Mundo Kids!",
+      reel: true,
+      slides: [{ t: "video", src: "media/mk-reels-fimdesemana-v3.mp4", poster: "img/mk-reels-fds-poster-v3.jpg" }],
+      steps: ["Risada no piscinão de bolinhas com o título", "Escorregador", "Pula-pula", "Balanço", "Área dos pequenos", "Monitoras de olho na diversão", "Cartela final: sábado das 9h às 19h, domingo (8/11) das 10h às 17h30, passaporte R$40, na FIP em Brusque (SC)"],
+      stepsTitle: "Roteiro",
+      caption: "Escorregador, pula-pula, balanço e muito mais 🤸 Seu fim de semana já tem programa: Mundo Kids, aqui dentro da FIP.\n\nSábado das 9h às 19h e, neste domingo (8/11), das 10h às 17h30, com Feira de Artesanato na FIP. Passaporte infantil a R$40. Vem brincar!",
+      cta: "Vem brincar no fim de semana",
+      source: "Vídeos do acervo com cor e nitidez tratadas; monitoras em foto. Horários da agenda da FIP. Sem música: o áudio em alta entra direto no Instagram."
+    },
+    "mk-03": {
+      brand: "mundokids", date: "Qua 11/11", format: "Reels · 15 s", goal: "Vender festas", ads: false,
+      headline: "Vem conhecer o salão de festas",
+      reel: true,
+      slides: [{ t: "video", src: "media/mk-reels-salao-v5.mp4", poster: "img/mk-reels-salao-poster-v3.jpg" }],
+      steps: ["Mesa decorada com o título", "Nosso salão, anexo ao parque", "Cozinha de apoio: geladeira, fogão e fornos", "Decore do seu jeito", "20 ingressos para o parque inclusos", "Até 50 convidados (adultos sentados)", "Parabéns em família", "Cartela final: novembro e dezembro, consulte disponibilidade, WhatsApp 47 98807-4556"],
+      stepsTitle: "Roteiro",
+      caption: "Esse é o salão de festas do Mundo Kids ✨ Anexo ao parque, com espaço para até 50 adultos sentados, cozinha de apoio, ar-condicionado e 20 ingressos para a criançada brincar. A decoração e o buffet ficam do seu jeito.\n\nConsulte a disponibilidade para novembro e dezembro pelo WhatsApp 47 98807-4556.",
+      cta: "Consulte disponibilidade",
+      source: "Fotos das pastas aniversários e espaço, todas com o mesmo tratamento de cor. Dados do salão da mensagem padrão. Sem música: o áudio em alta entra direto no Instagram."
+    },
+    "mk-04": {
+      brand: "mundokids", date: "Sex 13/11", format: "Carrossel · 7 cards", goal: "Informar os pais", ads: false,
+      headline: "Guia dos pais",
+      slides: [
+        { t: "mkphoto", img: "img/mk-guia-capa.jpg", alt: "Menina sorrindo no piscinão de bolinhas", title: "Guia\ndos pais", pill: "Tudo para curtir o Mundo Kids" },
+        { t: "mktext", title: "Horários", box: "De segunda a sábado das 9h às 19h e domingos conforme programação da FIP" },
+        { t: "mktext", tone: "pink", title: "Passaporte", pill: "R$40,00", box: "Valor para crianças, já com meia-entrada. Ingresso inteiro: R$80." },
+        { t: "mkphoto", img: "img/mk-area-baby.jpg", alt: "Crianças pequenas na piscina de bolinhas da área baby, com mural de nuvens", title: "Área dos\npequenos" },
+        { t: "mkphoto", img: "img/mk-monitoras.jpg", alt: "Monitora sorrindo na área baby", title: "Monitoras", pill: "De olho na diversão" },
+        { t: "mktext", title: "Regrinhas\nda casa", box: "Uso de meias obrigatório\nMenores de 4 anos brincam com um adulto junto" },
+        { t: "mktext", tone: "pink", title: "Onde\nestamos", pill: "Na FIP em Brusque (SC)" }
+      ],
+      caption: "Vem para a FIP Baby (11 a 15/11)? Aproveita e traz os pequenos para o Mundo Kids! 👶 Salva esse post para a próxima visita: juntamos horários, passaporte, a área dos pequenos e as regrinhas da casa.\n\nFicou alguma dúvida? Manda aqui nos comentários ou no WhatsApp 47 98807-4556.",
+      cta: "Salve para a próxima visita",
+      source: "Fotos profissionais do parque com tratamento de cor; monitoras: foto nova. Horários da agenda da FIP; passaporte e regras confirmados pela equipe. Sai durante a FIP Baby."
+    },
+    "mk-05": {
+      brand: "mundokids", date: "Ter 17/11", format: "Carrossel · 6 cards", goal: "Vender festas", ads: false,
+      headline: "Sua festa em 4 passos",
+      slides: [
+        { t: "mkphoto", img: "img/mk-4passos-capa.jpg", alt: "Família cantando parabéns em volta do bolo", title: "Sua festa\nem 4 passos" },
+        { t: "mktext", title: "1. Escolha\na data", box: "Consulte disponibilidade pelo WhatsApp" },
+        { t: "mktext", tone: "pink", title: "2. Reserve", box: "50% na assinatura do contrato e o restante no dia da festa. Cartão de crédito ou débito." },
+        { t: "mkphoto", img: "img/mk-tema.jpg", alt: "Mesa decorada com tema de dinossauros e balões verdes", title: "3. Decore do\nseu jeito", pill: "Salão liberado a partir das 9h" },
+        { t: "mkphoto", img: "img/mk-festa-mesa.jpg", alt: "Crianças sorrindo em volta da mesa durante a festa", title: "4. É só\naproveitar", pill: "Monitoras, limpeza e ar-condicionado" },
+        { t: "mktext", title: "Comece pelo\npasso 1", box: "WhatsApp 47 98807-4556" }
+      ],
+      caption: "Organizar festa infantil pode ser simples 🎉 No Mundo Kids é assim: escolheu a data, reservou com 50%, decorou do seu jeito e pronto, é só curtir. Monitoras, limpeza e ar-condicionado já estão inclusos.\n\nChama no WhatsApp 47 98807-4556 e comece pelo passo 1.",
+      cta: "Comece pelo passo 1 no WhatsApp",
+      source: "Fotos da pasta aniversários com tratamento de cor. Pagamento e regras da mensagem padrão do salão. O valor do aluguel não aparece no post."
+    },
+    "mk-06": {
+      brand: "mundokids", date: "Qui 19/11", format: "Feed · foto 4:5", goal: "Trazer visita", ads: false,
+      headline: "Feriado é no Mundo Kids",
+      slides: [{ t: "mkphoto", img: "img/mk-feriado.jpg", alt: "Criança descendo o escorregador direto no piscinão de bolinhas", title: "Feriado é\nno Mundo Kids", pill: "Sexta, 20/11 · das 9h às 19h", box: "E ainda é Dia Mundial da Criança!" }],
+      caption: "Sexta (20/11) é feriado, e o programa da família é no Mundo Kids! 💛 De quebra, é Dia Mundial da Criança.\n\nEstamos abertos no feriado e no sábado, das 9h às 19h (no domingo, 22/11, a FIP fecha). Te esperamos!",
+      cta: "Programa de feriado garantido",
+      source: "Foto profissional do acervo com tratamento de cor. Horário da agenda da FIP."
+    },
+    "mk-07": {
+      brand: "mundokids", date: "Qua 25/11", format: "Feed · arte 4:5", goal: "Vender festas", ads: true,
+      headline: "Festas de novembro e dezembro",
+      slides: [{ t: "calendar", small: "Festas de fim de ano", month: "Dezembro", startDow: 2, days: 31, hint: "Consulte disponibilidade: WhatsApp 47 98807-4556" }],
+      caption: "Ainda dá tempo! 🗓️ Garanta a sua festa de novembro e dezembro no salão do Mundo Kids.\n\nConsulte a disponibilidade da sua data pelo WhatsApp 47 98807-4556.",
+      cta: "Consulte disponibilidade",
+      todo: ["Se vai ter condição especial de Black Friday para festas"],
+      source: "Arte com calendário no mesmo padrão do calendário de setembro do perfil. Sem listar datas: chamada para consultar disponibilidade."
+    },
+    "mk-08": {
+      brand: "mundokids", date: "Sex 27/11", format: "Feed · foto 4:5", goal: "Trazer visita", ads: false,
+      headline: "Black Friday na FIP, diversão no Mundo Kids",
+      slides: [{ t: "mkphoto", img: "img/mk-familia.jpg", alt: "Pai, mãe e filho sorrindo no piscinão de bolinhas", title: "Black Friday\nna FIP", pill: "Diversão no Mundo Kids", fip: true, low: true }],
+      caption: "Dia de garimpar as ofertas da Black Friday na FIP? Traz a criançada 🛍️🎈 A partir de 4 anos, os pequenos brincam no Mundo Kids enquanto você aproveita as ofertas (menores de 4 entram com um adulto).\n\nSexta (27/11) e sábado, das 9h às 19h. Passaporte infantil a R$40.",
+      cta: "Programa completo para a família",
+      todo: ["Se terá condição especial no passaporte na Black Friday"],
+      source: "Foto do acervo com tratamento de cor; título na parte de baixo para não cobrir o rosto da criança. Post em collab com o perfil da FIP."
+    }
+  };
+
+  /* ---------- helpers ---------- */
+  function h(tag, attrs, kids) {
+    const el = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      const v = attrs[k];
+      if (v === null || v === undefined || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k === "text") el.textContent = v;
+      else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    (kids || []).forEach(c => { if (c !== null && c !== undefined && c !== false) el.append(c); });
+    return el;
+  }
+  // Texto com trechos [a confirmar] destacados
+  function rich(str) {
+    const frag = document.createDocumentFragment();
+    String(str).split(/(\[[^\]]+\])/g).forEach(part => {
+      if (!part) return;
+      if (/^\[[^\]]+\]$/.test(part)) frag.append(h("mark", { text: part.slice(1, -1) }));
+      else frag.append(document.createTextNode(part));
+    });
+    return frag;
+  }
+  const fmtTime = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+  const reduceMotion = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
+
+  /* ---------- Plaza Rivel: foto inteira com camada translúcida no tom da marca ---------- */
+  Object.assign(POSTS, {
+ "pr-01": {
+  "brand": "plaza",
+  "date": "Qua 4/11",
+  "quadro": "Plaza por dentro",
+  "format": "Carrossel · 3 cards · fixado",
+  "goal": "Apresentar o Plaza",
+  "ads": false,
+  "headline": "Vários negócios, um endereço.",
+  "service": "O Plaza como endereço: os 11 parceiros e a localização",
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-01-01.jpg",
+    "alt": "Torre do Plaza Rivel com o logo e céu azul, com o título Vários negócios, um endereço"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-01-02.jpg",
+    "alt": "Foto aérea do Plaza com o título 11 parceiros no mesmo prédio"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-01-03.jpg",
+    "alt": "Fachada do Plaza com véu caramelo e o texto Centro 2, Brusque (SC), venha conhecer"
+   }
+  ],
+  "caption": "Vários negócios, um só endereço. 🏢\n\nNo Plaza Rivel, no Centro 2 de Brusque, você almoça, corta o cabelo, grava o seu podcast, treina jiu-jitsu, faz pilates e ainda resolve advogado, seguro e crédito imobiliário, tudo no mesmo prédio.\n\nNos próximos posts, você vai conhecer cada um dos nossos 11 parceiros. Salve este post e venha nos visitar.\n\n📍 R. Gustavo Schlösser, 67 · Centro 2 · Brusque (SC)",
+  "cta": "Salve e venha conhecer",
+  "todo": [
+   "Se há estacionamento para clientes (as fotos mostram vagas na frente)"
+  ],
+  "source": "Drive: IMG_7922 (torre), DJI_0205 (drone) e IMG_7930 (fachada)."
+ },
+ "pr-02": {
+  "brand": "plaza",
+  "date": "Qui 5/11",
+  "quadro": "Guia Plaza",
+  "format": "Carrossel · 12 cards · fixado",
+  "goal": "Mostrar os parceiros",
+  "ads": false,
+  "headline": "11 parceiros para conhecer",
+  "service": "Um card por parceiro: foto, nome, o serviço e o @",
+  "handles": [
+   "@luminabrusque",
+   "@clementebarbearia_",
+   "@seven7_estudio",
+   "@riliongracie.brusque",
+   "@studiofitlife",
+   "@scalvimroda",
+   "@dracassiapeterslauritzen",
+   "@voltoliniseguros",
+   "@diamantecreditoimb",
+   "@avantifios",
+   "@portalvisaomais"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-01.jpg",
+    "alt": "Capa: foto aérea do Plaza com o título 11 parceiros para conhecer"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-02.jpg",
+    "alt": "Card Lúmina Gourmet: chef sorrindo atrás da mesa de pratos"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-03.jpg",
+    "alt": "Card Clemente Barbearia: dois barbeiros atendendo no salão"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-04.jpg",
+    "alt": "Card Seven7 Estúdio: letreiro luminoso No Ar"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-05.jpg",
+    "alt": "Card Rilion Gracie: letreiro na fachada do Plaza"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-06.jpg",
+    "alt": "Card Studio Fit Life: ainda sem foto"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-07.jpg",
+    "alt": "Card Scalvim Roda Advogados: nomes dos advogados na fachada"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-08.jpg",
+    "alt": "Card Dra. Cássia Peters Lauritzen no escritório"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-09.jpg",
+    "alt": "Card Voltolini Seguros: equipe na frente da corretora"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-10.jpg",
+    "alt": "Card Diamante Crédito Imobiliário: consultora no escritório"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-11.jpg",
+    "alt": "Card Avanti Fios: letreiro no centro de distribuição"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-02-12.jpg",
+    "alt": "Card Portal Visão+: apresentador do portal"
+   }
+  ],
+  "caption": "Salve para consultar quando precisar. 📌 Estes são os 11 parceiros do Plaza Rivel:\n\n🍽️ Lúmina Gourmet: complexo gastronômico internacional @luminabrusque\n💈 Clemente Barbearia: cortes clássicos e modernos @clementebarbearia_\n🎙️ Seven7 Estúdio: vídeos, podcasts e entrevistas @seven7_estudio\n🥋 Rilion Gracie: jiu-jitsu @riliongracie.brusque\n🧘 Studio Fit Life: pilates @studiofitlife\n⚖️ Scalvim Roda Advogados @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS e aposentadorias @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário @diamantecreditoimb\n🧵 Avanti Fios: fios para a indústria têxtil @avantifios\n📰 Portal Visão+: notícias de Brusque @portalvisaomais\n\nMarque quem precisa conhecer algum deles.",
+  "cta": "Salve para consultar",
+  "todo": [
+   "Se são mesmo 11 parceiros hoje (algum entrou ou saiu?)",
+   "Foto do Studio Fit Life e uma de dentro da Rilion Gracie"
+  ],
+  "source": "Capa: Drive DJI_0207 (drone com as fachadas). Cards: fotos dos perfis dos parceiros; Rilion Gracie e Scalvim Roda pela fachada (Drive IMG_7921 e IMG_7817)."
+ },
+ "pr-03": {
+  "brand": "plaza",
+  "date": "Sex 6/11",
+  "quadro": "Locação",
+  "format": "Carrossel · 4 cards · fixado",
+  "goal": "Alugar salas",
+  "ads": false,
+  "headline": "Seu negócio pode estar aqui",
+  "service": "Locação de salas comerciais",
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-03-01.jpg",
+    "alt": "Sala vazia com escada metálica, com o título Seu negócio pode estar aqui"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-03-02.jpg",
+    "alt": "Sala vazia com trilhos de luz e janela de vidro"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-03-03.jpg",
+    "alt": "Sala de pé-direito alto com escada"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-03-04.jpg",
+    "alt": "Sala com véu caramelo e o texto Agende uma visita, com o WhatsApp da locação"
+   }
+  ],
+  "caption": "Seu negócio pode estar aqui. ✨\n\nO Plaza Rivel tem [quantas salas e metragens] livres no Centro 2 de Brusque, ao lado de 11 parceiros que já movimentam o prédio todos os dias: gastronomia, serviços, treino e bem-estar.\n\nChame no WhatsApp [número da locação] e agende uma visita.",
+  "cta": "Agende uma visita pelo WhatsApp",
+  "todo": [
+   "Quantas salas estão livres e as metragens",
+   "WhatsApp da locação",
+   "Se o valor do aluguel fica fora do post"
+  ],
+  "source": "Drive: IMG_2652, IMG_2653, IMG_2661 e IMG_2654 (salas vazias). Ligar ao destaque Locação."
+ },
+ "pr-04": {
+  "brand": "plaza",
+  "date": "Seg 9/11",
+  "quadro": "Quem faz o Plaza",
+  "format": "Reels · 20 a 30 s · collab",
+  "goal": "Mostrar um parceiro",
+  "ads": false,
+  "reel": true,
+  "headline": "Quem faz o Plaza: Clemente Barbearia",
+  "service": "Clemente Barbearia: cortes clássicos e modernos",
+  "handles": [
+   "@clementebarbearia_"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-04-01.jpg",
+    "alt": "Capa: barbeiro passando a máquina no cabelo do cliente, com o título Quem faz o Plaza, Clemente Barbearia"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-04-02.jpg",
+    "alt": "Cena: dois barbeiros atendendo no salão com luzes hexagonais"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-04-03.jpg",
+    "alt": "Cena: detalhe da tesoura no cabelo"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-04-04.jpg",
+    "alt": "Cena: acabamento na navalha"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-04-05.jpg",
+    "alt": "Cena: cliente com o corte pronto, de perfil"
+   }
+  ],
+  "steps": [
+   "Salão da Clemente, dentro do Plaza",
+   "Detalhe da tesoura",
+   "Acabamento na navalha",
+   "Corte pronto",
+   "Cartela: Novembro Azul, cuide de você por inteiro + @clementebarbearia_"
+  ],
+  "caption": "Novembro Azul também é sobre se cuidar. 💙\n\nNa Clemente Barbearia, aqui no Plaza Rivel, tem corte clássico e moderno feito com capricho. E neste mês fica o lembrete: cuidar da aparência é bom, cuidar da saúde é essencial. Faça seus exames.\n\n📍 Clemente Barbearia · Plaza Rivel\n@clementebarbearia_",
+  "cta": "Cuide de você também",
+  "todo": [
+   "Se a Clemente topa o collab e envia os vídeos dos reels dela, ou se gravamos até 7/11",
+   "Se a barbearia vai fazer alguma ação de Novembro Azul"
+  ],
+  "source": "Capa e cenas: perfil @clementebarbearia_.",
+  "stepsTitle": "Roteiro do reels"
+ },
+ "pr-05": {
+  "brand": "plaza",
+  "date": "Qua 11/11",
+  "quadro": "Plaza por dentro",
+  "format": "Reels · 20 a 30 s",
+  "goal": "Trazer visita",
+  "ads": false,
+  "reel": true,
+  "photoOnly": true,
+  "highlight": "Almoço, treino e pilates no mesmo endereço",
+  "service": "Gastronomia, jiu-jitsu e pilates: Lúmina Gourmet, Rilion Gracie e Studio Fit Life",
+  "handles": [
+   "@luminabrusque",
+   "@riliongracie.brusque",
+   "@studiofitlife"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-05-01.jpg",
+    "alt": "Capa: foto aérea do Plaza, só com o selo Plaza por dentro"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-05-02.jpg",
+    "alt": "Cena: varanda do restaurante O'Italiano, no Lúmina"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-05-03.jpg",
+    "alt": "Cena: letreiro da Rilion Gracie na fachada"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-05-04.jpg",
+    "alt": "Cena a gravar: aparelhos de pilates do Studio Fit Life"
+   }
+  ],
+  "steps": [
+   "Drone chegando ao Plaza",
+   "Entrada do prédio",
+   "Lúmina Gourmet: salão e um prato saindo",
+   "Rilion Gracie: tatame e treino",
+   "Studio Fit Life: aparelhos de pilates em uso",
+   "Cartela: R. Gustavo Schlösser, 67 · Centro 2"
+  ],
+  "caption": "Almoço, treino e pilates no mesmo endereço? No Plaza Rivel tem. 🍽️🥋🧘\n\nVem passear com a gente pelo Lúmina Gourmet, pela Rilion Gracie e pelo Studio Fit Life, todos aqui no Centro 2 de Brusque.\n\n@luminabrusque @riliongracie.brusque @studiofitlife",
+  "cta": "Vem passear pelo Plaza",
+  "todo": [
+   "Horário para gravar com os três parceiros",
+   "Se existe vídeo de drone ou só as fotos do Drive"
+  ],
+  "source": "Capa: Drive DJI_0201 (drone). Cenas: perfil @luminabrusque e fachada da Rilion (Drive IMG_7921). Studio Fit Life: gravar.",
+  "stepsTitle": "Roteiro do reels",
+  "headline": "Almoço, treino e pilates no mesmo endereço"
+ },
+ "pr-06": {
+  "brand": "plaza",
+  "date": "Sex 13/11",
+  "quadro": "Vitrine",
+  "format": "Carrossel · 4 cards · collab",
+  "goal": "Mostrar um parceiro",
+  "ads": false,
+  "photoOnly": true,
+  "highlight": "Vitrine da semana: Avanti Fios",
+  "service": "Avanti Fios: distribuição de fios têxteis para a indústria",
+  "handles": [
+   "@avantifios"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-06-01.jpg",
+    "alt": "Capa: letreiro Avanti no centro de distribuição, só com o selo Vitrine"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-06-02.jpg",
+    "alt": "Centro de distribuição da Avanti com o texto +25 anos com a indústria têxtil"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-06-03.jpg",
+    "alt": "Cones de fio coloridos com o texto Fios para a sua produção"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-06-04.jpg",
+    "alt": "Fachada do Plaza com a loja da Avanti"
+   }
+  ],
+  "caption": "Vitrine da semana: Avanti Fios. 🧵\n\nHá mais de 25 anos apoiando a indústria, a Avanti distribui fios para tecelagens, malharias, barbantes, redes, meias, fitas e artesanato. E está aqui no Plaza Rivel, com [o que funciona no Plaza: escritório, showroom ou atendimento].\n\nConheça: @avantifios",
+  "cta": "Conheça a Avanti",
+  "todo": [
+   "O que a Avanti tem no Plaza",
+   "Se a Avanti aceita o collab"
+  ],
+  "source": "Cards 1 a 3: perfil @avantifios (letreiro, CD Avanti e fios). Card 4: Drive IMG_7819 (fachada no Plaza).",
+  "headline": "Vitrine da semana: Avanti Fios"
+ },
+ "pr-07": {
+  "brand": "plaza",
+  "date": "Seg 16/11",
+  "quadro": "Guia Plaza",
+  "format": "Carrossel · 6 cards",
+  "goal": "Mostrar os parceiros",
+  "ads": false,
+  "headline": "Direito, seguros e crédito num só endereço",
+  "service": "Advocacia, direito previdenciário, seguros e crédito imobiliário",
+  "handles": [
+   "@scalvimroda",
+   "@dracassiapeterslauritzen",
+   "@voltoliniseguros",
+   "@diamantecreditoimb"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-07-01.jpg",
+    "alt": "Capa: fachada do Plaza com o título Direito, seguros e crédito num só endereço"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-07-02.jpg",
+    "alt": "Card Scalvim Roda Advogados"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-07-03.jpg",
+    "alt": "Card Dra. Cássia Peters Lauritzen, direito previdenciário"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-07-04.jpg",
+    "alt": "Card Voltolini Seguros, seguros há 36 anos"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-07-05.jpg",
+    "alt": "Card Diamante Crédito Imobiliário"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-07-06.jpg",
+    "alt": "Fachada com véu caramelo e o texto Marque quem precisa resolver"
+   }
+  ],
+  "caption": "Direito, seguros e crédito num só endereço. ⚖️🛡️🏠\n\n⚖️ Scalvim Roda Advogados: sala D04, piso superior @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS, aposentadorias, BPC/LOAS e benefício por incapacidade @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário: crédito para o seu imóvel @diamantecreditoimb\n\nMarque quem precisa resolver isso ainda este ano.",
+  "cta": "Marque quem precisa",
+  "todo": [
+   "Áreas de atuação da Scalvim Roda, para a legenda"
+  ],
+  "source": "Capa e card final: Drive IMG_7817 e IMG_7818 (fachada). Cards: perfis @dracassiapeterslauritzen, @voltoliniseguros e @diamantecreditoimb; Scalvim Roda pela fachada."
+ },
+ "pr-08": {
+  "brand": "plaza",
+  "date": "Qua 18/11",
+  "quadro": "Quem faz o Plaza",
+  "format": "Reels · 20 a 30 s · collab",
+  "goal": "Mostrar um parceiro",
+  "ads": false,
+  "reel": true,
+  "headline": "Quem faz o Plaza: Seven7 Estúdio",
+  "service": "Seven7 Estúdio: gravação de vídeos, podcasts e entrevistas",
+  "handles": [
+   "@seven7_estudio"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-08-01.jpg",
+    "alt": "Capa: microfone de podcast em frente ao letreiro Seven QG Digital, com o título Quem faz o Plaza, Seven7 Estúdio"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-08-02.jpg",
+    "alt": "Cena: letreiro luminoso No Ar aceso no escuro"
+   }
+  ],
+  "steps": [
+   "Luz NO AR acendendo",
+   "Microfones, câmeras e cenário",
+   "Bastidor de uma gravação",
+   "Alguém da equipe apresenta o estúdio em uma frase",
+   "Cartela: vídeos, podcasts e entrevistas + @seven7_estudio"
+  ],
+  "caption": "Já pensou em gravar o seu podcast aqui no Plaza? 🎙️\n\nO Seven7 é um estúdio de gravação profissional para vídeos, podcasts e entrevistas, bem aqui no Centro 2 de Brusque.\n\nConheça a estrutura: @seven7_estudio",
+  "cta": "Conheça o estúdio",
+  "todo": [
+   "Se o Seven7 topa o collab e quem da equipe aparece no vídeo"
+  ],
+  "source": "Capa e cena: perfil @seven7_estudio.",
+  "stepsTitle": "Roteiro do reels"
+ },
+ "pr-09": {
+  "brand": "plaza",
+  "date": "Qui 19/11",
+  "quadro": "Vitrine",
+  "format": "Carrossel · 4 cards · collab",
+  "goal": "Trazer visita no feriado",
+  "ads": false,
+  "photoOnly": true,
+  "highlight": "Antes do feriado, uma pausa à mesa",
+  "service": "Lúmina Gourmet: complexo gastronômico internacional, com espaço kids",
+  "handles": [
+   "@luminabrusque"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-09-01.jpg",
+    "alt": "Capa: chef do Lúmina sorrindo atrás da mesa de pratos, só com o selo Vitrine"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-09-02.jpg",
+    "alt": "Taça e garrafa de vinho tinto na adega do Lúmina"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-09-03.jpg",
+    "alt": "Varanda do O'Italiano com o texto cinco cozinhas: Brasil, Uruguai, Itália, México e Japão"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-09-04.jpg",
+    "alt": "Fachada do Lúmina Gourmet no Plaza"
+   }
+  ],
+  "caption": "Antes do feriado, uma pausa à mesa. 🍷\n\nO Lúmina Gourmet reúne cozinhas do Brasil, Uruguai, Itália, México e Japão num só complexo, com espaço kids e recreadora para a família aproveitar sem pressa.\n\nNesta sexta (20/11), feriado, o Lúmina abre [horário do feriado].\n\n@luminabrusque",
+  "cta": "Reserve sua mesa",
+  "todo": [
+   "Horário do Lúmina no feriado de 20/11",
+   "Se o espaço kids funciona no feriado"
+  ],
+  "source": "Cards 1 a 3: perfil @luminabrusque (chef, vinho, O'Italiano). Card 4: Drive DJI_0208 (fachada do Lúmina).",
+  "headline": "Antes do feriado, uma pausa à mesa"
+ },
+ "pr-10": {
+  "brand": "plaza",
+  "date": "Seg 23/11",
+  "quadro": "Vitrine · Black Friday",
+  "format": "Carrossel · 1 card por oferta",
+  "goal": "Trazer visita",
+  "ads": true,
+  "headline": "Black Friday no Plaza",
+  "service": "Ofertas dos parceiros que aderirem à Black Friday",
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-10-01.jpg",
+    "alt": "Capa: fachada do Plaza com véu grafite e o título Black Friday no Plaza, sexta 27/11"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-10-02.jpg",
+    "alt": "Modelo de card de oferta: foto do produto, nome do parceiro, oferta e @"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-10-03.jpg",
+    "alt": "Fachada com véu grafite e o texto Sexta, 27/11, salve e marque alguém"
+   }
+  ],
+  "caption": "A Black Friday do Plaza Rivel é nesta sexta, 27/11. 🖤\n\nSeparamos as ofertas dos nossos parceiros:\n[lista de ofertas: parceiro, oferta e validade]\n\nSalve este post e marque quem vai com você.",
+  "cta": "Salve e marque alguém",
+  "todo": [
+   "Quais parceiros participam e as ofertas, até sexta 20/11",
+   "Uma foto de cada oferta (produto ou serviço)",
+   "Verba e público do anúncio"
+  ],
+  "source": "Capa: Drive IMG_7929 (fachada). Um card por parceiro participante, no modelo do card 2.",
+  "adsLabel": "Impulsionar"
+ },
+ "pr-11": {
+  "brand": "plaza",
+  "date": "Qua 25/11",
+  "quadro": "Locação",
+  "format": "Reels · 30 s",
+  "goal": "Alugar salas",
+  "ads": true,
+  "reel": true,
+  "headline": "Uma sala por dentro",
+  "service": "Locação: uma sala livre por dentro e o depoimento de um parceiro",
+  "handles": [
+   "@voltoliniseguros"
+  ],
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-11-01.jpg",
+    "alt": "Capa: corredor do Plaza com o título Uma sala por dentro"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-11-02.jpg",
+    "alt": "Cena: sala vazia com piso de madeira e janela grande"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-11-03.jpg",
+    "alt": "Cena do depoimento: equipe da Voltolini Seguros na frente da corretora"
+   }
+  ],
+  "steps": [
+   "Corredor do Plaza",
+   "Porta da sala abrindo",
+   "Sala vazia: luz, piso e janelas",
+   "Depoimento de um parceiro sobre por que escolheu o Plaza (sugestão: Voltolini Seguros)",
+   "Cartela: salas disponíveis + WhatsApp"
+  ],
+  "caption": "Veja uma sala livre do Plaza Rivel por dentro. 👀\n\nSão [metragem] no Centro 2 de Brusque, com 11 parceiros como vizinhos. E quem já está aqui conta por que escolheu o Plaza.\n\nAgende uma visita pelo WhatsApp [número da locação].",
+  "cta": "Agende uma visita",
+  "todo": [
+   "Qual sala mostrar e a metragem",
+   "Qual parceiro grava o depoimento",
+   "WhatsApp da locação",
+   "Verba e público do anúncio"
+  ],
+  "source": "Capa: Drive IMG_2660 (corredor). Cenas: Drive IMG_2655 (sala) e equipe da Voltolini (perfil @voltoliniseguros).",
+  "stepsTitle": "Roteiro do reels",
+  "adsLabel": "Impulsionar"
+ },
+ "pr-12": {
+  "brand": "plaza",
+  "date": "Sex 27/11",
+  "quadro": "Vitrine · Black Friday",
+  "format": "Reels · 15 a 20 s",
+  "goal": "Trazer visita",
+  "ads": false,
+  "reel": true,
+  "photoOnly": true,
+  "highlight": "Hoje é Black Friday no Plaza",
+  "service": "O dia: movimento no prédio e parceiros mostrando as ofertas",
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-12-01.jpg",
+    "alt": "Capa: vista aérea da galeria e do estacionamento, só com o selo Black Friday"
+   }
+  ],
+  "steps": [
+   "Drone ou fachada com movimento",
+   "Dois ou três parceiros mostram a oferta, 3 s cada",
+   "Cartela: hoje até [horário]"
+  ],
+  "caption": "Hoje é Black Friday no Plaza Rivel! 🖤\n\nPasse aqui e aproveite as ofertas dos nossos parceiros até [horário].\n\n📍 R. Gustavo Schlösser, 67 · Centro 2 · Brusque (SC)",
+  "cta": "Passe aqui hoje",
+  "todo": [
+   "Horário das ofertas no dia",
+   "Quem grava no dia"
+  ],
+  "source": "Capa: Drive DJI_0211 (drone). Vídeo: gravar no dia.",
+  "stepsTitle": "Roteiro do reels",
+  "headline": "Hoje é Black Friday no Plaza"
+ },
+ "pr-13": {
+  "brand": "plaza",
+  "date": "Seg 30/11",
+  "quadro": "Quem faz o Plaza",
+  "format": "Reels · 20 s",
+  "goal": "Aproximar do público",
+  "ads": false,
+  "reel": true,
+  "headline": "Quem cuida do Plaza todos os dias",
+  "service": "Dia do Síndico: administração, limpeza e segurança do prédio",
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-13-01.jpg",
+    "alt": "Capa: torre do Plaza Rivel com o título Quem cuida do Plaza todos os dias"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-13-02.jpg",
+    "alt": "Foto a tirar até 28/11: equipe do Plaza"
+   }
+  ],
+  "steps": [
+   "Equipe reunida na entrada",
+   "Administração",
+   "Limpeza",
+   "Segurança e portaria",
+   "Cartela: obrigado a quem cuida do Plaza"
+  ],
+  "caption": "Hoje é Dia do Síndico. 🙌\n\nObrigado a quem cuida do Plaza Rivel todos os dias: administração, limpeza e segurança. É graças a vocês que parceiros e clientes encontram tudo funcionando.\n\nFeliz Dia do Síndico, [nome do síndico]!",
+  "cta": "Agradecer a equipe",
+  "todo": [
+   "Nome do síndico e se ele quer aparecer",
+   "Foto ou vídeo da equipe até 28/11"
+  ],
+  "source": "Capa provisória: Drive IMG_7919 (torre). A final usa a foto da equipe.",
+  "stepsTitle": "Roteiro do reels"
+ },
+ "pr-perfil": {
+  "brand": "plaza",
+  "date": "30/11",
+  "quadro": "Grade do perfil",
+  "format": "13 posts novos + os atuais",
+  "goal": "Ver o conjunto",
+  "ads": false,
+  "free": true,
+  "headline": "Como o perfil fica no fim de novembro",
+  "slides": [
+   {
+    "t": "img",
+    "img": "img/plaza-v2/pr-previa-perfil.jpg",
+    "alt": "Prévia do perfil @plazarivel com os 13 posts novos na grade, os três fixados no topo e os posts antigos embaixo",
+    "free": true
+   }
+  ],
+  "list": [
+   "Fixados no topo: apresentação, guia dos parceiros e salas",
+   "Todas as capas com foto inteira e camada translúcida, sem fundo sólido",
+   "Destaque novo de Black Friday, de 23 a 30/11, ao lado de Locação, Serviços e Sobre Nós"
+  ],
+  "source": "Montagem com as pré-artes desta aba e os posts que já estão no perfil."
+ }
+});
+  BRANDS.push({
+ "id": "plaza",
+ "kind": "pr",
+ "name": "Plaza Rivel",
+ "initials": "PR",
+ "tagInHeader": true,
+ "intro": "13 posts em novembro, 3 por semana, cada um mostrando o serviço de um ou mais parceiros. Começa pela prévia de como a grade fica no fim do mês.",
+ "notes": [
+  {
+   "title": "Direção",
+   "items": [
+    "Mostrar o Plaza como um endereço de negócios. As empresas do prédio são sempre chamadas de parceiros.",
+    "Cada parceiro aparece com o serviço que ele mesmo descreve no perfil e com o @.",
+    "Os três primeiros posts viram os fixados do perfil."
+   ]
+  },
+  {
+   "title": "Identidade visual",
+   "items": [
+    "No padrão do perfil: foto inteira com camada translúcida em caramelo ou grafite. Nada de fundo de cor sólida.",
+    "Pouco texto na arte: o selo PLAZA RIVEL no topo e, quando tem título, poucas palavras com uma em letra cursiva. O resto vai na legenda.",
+    "Na prévia, o logo e as fontes são aproximados. No Canva, usar o logo e as fontes oficiais."
+   ]
+  },
+  {
+   "title": "Sobre as imagens",
+   "items": [
+    "Fotos do Drive do Plaza (drone, fachada e salas) e dos perfis dos parceiros.",
+    "Faltam fotos do Studio Fit Life e de dentro da Rilion Gracie (por enquanto, só a fachada)."
+   ]
+  },
+  {
+   "title": "Ainda falta confirmar",
+   "items": [
+    "WhatsApp da locação e metragens das salas",
+    "Ofertas de Black Friday dos parceiros, até sexta 20/11",
+    "Horário do Lúmina no feriado de 20/11",
+    "O que a Avanti tem no Plaza e as áreas da Scalvim Roda"
+   ]
+  }
+ ],
+ "weeks": [
+  {
+   "label": "Prévia do perfil",
+   "span": "como a grade fica em 30/11",
+   "posts": [
+    "pr-perfil"
+   ],
+   "noCount": true
+  },
+  {
+   "label": "Semana 1",
+   "span": "4 a 6 de novembro · os três viram os fixados",
+   "posts": [
+    "pr-01",
+    "pr-02",
+    "pr-03"
+   ]
+  },
+  {
+   "label": "Semana 2",
+   "span": "9 a 13 de novembro · Novembro Azul",
+   "posts": [
+    "pr-04",
+    "pr-05",
+    "pr-06"
+   ]
+  },
+  {
+   "label": "Semana 3",
+   "span": "16 a 19 de novembro · sexta 20/11 é feriado",
+   "posts": [
+    "pr-07",
+    "pr-08",
+    "pr-09"
+   ]
+  },
+  {
+   "label": "Semana 4",
+   "span": "23 a 27 de novembro · Black Friday 27/11",
+   "posts": [
+    "pr-10",
+    "pr-11",
+    "pr-12"
+   ]
+  },
+  {
+   "label": "Semana 5",
+   "span": "30 de novembro · Dia do Síndico",
+   "posts": [
+    "pr-13"
+   ]
+  }
+ ]
+});
+  BRANDS.find(b => b.id === "mundokids").next = "plaza";
+
+  /* ---------- prévia ---------- */
+  // Título no padrão do Mundo Kids: linhas alternando rosa e verde (ou uma cor só)
+  function mkTitle(text, only, extra) {
+    const el = h("div", { class: "mk-title" + (extra ? " " + extra : "") });
+    String(text).split("\n").forEach((line, i) => el.append(h("span", { class: only || (i % 2 === 0 ? "pk" : "lm"), text: line })));
+    return el;
+  }
+  function mkBox(text) { const b = h("div", { class: "mk-box" }); b.append(rich(text)); return b; }
+  function mkLogo() { return h("img", { class: "mk-logo", src: "img/mk-logo.jpg", alt: "", "aria-hidden": "true" }); }
+
+  function renderSlide(s, brand) {
+    if (s.t === "mkphoto") return h("div", { class: "slide mk-photo" + (s.low ? " low" : "") }, [
+      h("img", { src: s.img, alt: s.alt, loading: "lazy" }), h("div", { class: "mk-fade" }),
+      s.box ? mkBox(s.box) : null,
+      s.fip ? h("div", { class: "mk-fip", text: "FIP" }) : null,
+      h("div", { class: "mk-stack" }, [mkTitle(s.title), s.pill ? h("div", { class: "mk-pill", text: s.pill }) : null]),
+      mkLogo()
+    ]);
+    if (s.t === "fzphoto") return h("div", { class: "slide fz-photo" }, [
+      h("img", { src: s.img, alt: s.alt, loading: "lazy" }), h("div", { class: "shade" }),
+      h("div", { class: "fz-logo", "aria-hidden": "true" }, [h("small", { text: "FAZENDA" }), document.createTextNode("Paraíso")]),
+      h("div", { class: "fz-block" }, [h("div", { class: "fz-l1", text: s.l1 }), h("div", { class: "fz-l2", text: s.l2 }), h("div", { class: "fz-l3", text: s.l3 }), h("div", { class: "fz-date" }, [h("i"), h("span", { text: s.tag })])])
+    ]);
+    if (s.t === "mktext") return h("div", { class: "slide mk-text" + (s.tone ? " " + s.tone : "") }, [
+      mkLogo(), mkTitle(s.title), s.pill ? h("div", { class: "mk-pill", text: s.pill }) : null, s.box ? mkBox(s.box) : null
+    ]);
+    if (s.t === "img") return h("div", { class: "slide" + (s.free ? " free" : "") }, [h("img", { src: s.img, alt: s.alt, loading: "lazy" })]);
+    if (s.t === "pending") return h("div", { class: "slide pending" }, [h("b", { text: s.title }), h("span", { text: s.sub })]);
+    if (s.t === "calendar") {
+      const grid = h("div", { class: "grid" });
+      ["D", "S", "T", "Q", "Q", "S", "S"].forEach(d => grid.append(h("span", { class: "h", text: d })));
+      for (let i = 0; i < s.startDow; i++) grid.append(h("span", { class: "x" }));
+      for (let d = 1; d <= s.days; d++) grid.append(h("span", { text: String(d) }));
+      return h("div", { class: "slide mk-cal" }, [mkLogo(), h("div", { class: "small", text: s.small }), mkTitle(s.month, "pk"), h("div", { class: "sheet" }, [grid, h("div", { class: "hint", text: s.hint || "" })])]);
+    }
+    if (s.t === "video") {
+      const v = h("video", { src: s.src, poster: s.poster, muted: true, loop: true, playsinline: true, preload: "metadata", controls: reduceMotion ? true : null, "aria-label": "Prévia do reels montada com o acervo" });
+      v.muted = true;
+      if (!reduceMotion) { v.autoplay = true; v.addEventListener("click", () => v.paused ? v.play() : v.pause()); }
+      return h("div", { class: "slide" }, [v]);
+    }
+    return h("div", { class: "slide" });
+  }
+
+  function renderPreview(post, brand) {
+    const scenes = post.cover45 || (post.reel && post.slides.length > 1);
+    const label = i => post.free ? "Grade" : scenes ? (i === 0 ? "Capa" : "Cena " + (i + 1)) : post.reel ? "Reels" : (post.slides.length > 1 ? (i + 1) + "/" + post.slides.length : "Feed");
+    const track = h("div", { class: "slides" + (post.reel && !post.cover45 ? " reel" : ""), tabindex: "0", "aria-label": "Prévia do post" });
+    post.slides.forEach(s => track.append(renderSlide(s, brand)));
+    const tag = h("span", { class: "design-tag" + (brand.tagInHeader ? " inline" : ""), text: post.free ? "Prévia" : "Sugestão de design" });
+    const ig = h("div", { class: "ig" }, [
+      h("div", { class: "ig-top" }, [h("span", { class: "ig-av " + brand.kind, text: brand.initials }), h("b", { text: brand.name }), brand.tagInHeader ? tag : null, h("span", { class: "fmt", text: label(0) })]),
+      h("div", { class: "media" }, [track, brand.tagInHeader ? null : tag])
+    ]);
+    const parts = [ig];
+    if (post.slides.length > 1) {
+      const dots = h("div", { class: "dots", "aria-hidden": "true" });
+      post.slides.forEach((_, i) => dots.append(h("i", { class: i === 0 ? "on" : "" })));
+      const fmt = ig.querySelector(".fmt");
+      const prev = h("button", { type: "button", "aria-label": "Card anterior", text: "‹", disabled: true });
+      const next = h("button", { type: "button", "aria-label": "Próximo card", text: "›" });
+      const go = dir => track.scrollBy({ left: dir * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" });
+      prev.addEventListener("click", () => go(-1));
+      next.addEventListener("click", () => go(1));
+      let raf = 0;
+      track.addEventListener("scroll", () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const i = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+          dots.querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === i));
+          fmt.textContent = label(i);
+          if (scenes) tag.textContent = i === 0 ? "Sugestão de design" : "Cena sugerida";
+          prev.disabled = i <= 0; next.disabled = i >= post.slides.length - 1;
+        });
+      }, { passive: true });
+      parts.push(h("div", { class: "car-nav" }, [prev, dots, next]));
+    }
+    if (post.cover45) parts.push(h("p", { class: "cap", text: "Capa do reels no recorte da grade (4:5)." + (post.slides.length > 1 ? " Arraste para ver as cenas sugeridas." : "") }));
+    else if (post.reel) parts.push(h("p", { class: "cap", text: post.slides[0].t === "video" ? "Vídeo editado, sem música. Toque para pausar." : "Capa do reels (9:16)." + (post.slides.length > 1 ? " Arraste para ver as cenas sugeridas." : "") }));
+    return h("div", { class: "preview" }, parts);
+  }
+
+  /* ---------- ficha do post ---------- */
+  const panels = {};
+
+  function copyCaption(btn, text, box) {
+    const done = () => { btn.textContent = "Copiada"; setTimeout(() => { btn.textContent = "Copiar legenda"; }, 1800); };
+    const fallback = () => { try { const r = document.createRange(); r.selectNodeContents(box); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); btn.textContent = "Selecionada: use Ctrl+C"; } catch (e) {} };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  }
+
+  function renderPost(id, post, brand) {
+    const meta = h("div", { class: "meta" }, [
+      h("span", { class: "chip date", text: post.date }),
+      post.quadro ? h("span", { class: "chip quadro", text: post.quadro }) : null,
+      post.dateNote ? h("span", { class: "chip", text: post.dateNote }) : null,
+      h("span", { class: "chip", text: post.format }),
+      h("span", { class: "chip", text: post.goal }),
+      post.ads ? h("span", { class: "chip ads", text: post.adsLabel || "Também como anúncio" }) : null
+    ]);
+    const headline = post.photoOnly
+      ? h("div", { class: "headline" }, [h("div", { class: "eyebrow", text: "Arte" }), h("h3", { class: "only-photo", text: "Capa só com foto. O destaque vai na legenda." }), h("div", { class: "eyebrow", text: "Destaque da legenda", style: "margin-top:10px" }), h("h3", { text: post.highlight })])
+      : h("div", { class: "headline" }, [h("div", { class: "eyebrow", text: post.free ? "Prévia" : "Headline da arte" }), h("h3", { text: post.headline })]);
+
+    let caption = null;
+    if (post.caption) {
+      const capBox = h("div", { class: "caption" }); capBox.append(rich(post.caption));
+      const copyBtn = h("button", { type: "button", class: "btn-copy", text: "Copiar legenda" });
+      copyBtn.addEventListener("click", () => copyCaption(copyBtn, post.caption, capBox));
+      caption = h("div", { class: "block" }, [h("div", { class: "block-head" }, [h("span", { class: "eyebrow", text: "Legenda" }), copyBtn]), capBox]);
+    }
+
+    const blocks = [meta, headline];
+    if (post.service) {
+      const svc = h("div", { class: "service" }, [h("span", { class: "eyebrow", text: "Serviço mostrado" }), h("p", { text: post.service })]);
+      if (post.handles && post.handles.length) svc.append(h("div", { class: "handles" }, post.handles.map(t => h("span", { text: t }))));
+      blocks.push(svc);
+    }
+    if (post.steps) {
+      const ol = h("ol", { class: "steps" });
+      post.steps.forEach(s => { const li = h("li"); li.append(rich(s)); ol.append(li); });
+      blocks.push(h("div", { class: "block" }, [h("span", { class: "eyebrow", text: post.stepsTitle || "Roteiro" }), ol]));
+    }
+    if (post.list) {
+      const ul = h("ul", { class: "plain" });
+      post.list.forEach(t => ul.append(h("li", { text: t })));
+      blocks.push(h("div", { class: "block" }, [h("span", { class: "eyebrow", text: "O que observar" }), ul]));
+    }
+    if (caption) blocks.push(caption);
+    if (post.cta) blocks.push(h("div", { class: "block" }, [h("span", { class: "eyebrow", text: "CTA" }), h("p", { text: post.cta })]));
+    if (post.todo && post.todo.length) {
+      const ul = h("ul", { class: "todo" });
+      post.todo.forEach(t => ul.append(h("li", { text: t })));
+      blocks.push(h("div", { class: "block" }, [h("span", { class: "eyebrow", text: "Falta confirmar" }), ul]));
+    }
+    blocks.push(h("p", { class: "source", text: "Material: " + post.source }));
+
+    // aprovação
+    const pill = h("span", { class: "pill pendente", text: "Aguardando aprovação" });
+    const sub = h("span", { class: "review-sub" });
+    const thread = h("ol", { class: "thread", "aria-label": "Histórico de aprovação" });
+    const taId = "comentario-" + id;
+    const ta = h("textarea", { id: taId, maxlength: "1000", placeholder: "Se quiser mudar algo, escreva aqui. Para aprovar, não precisa escrever nada." });
+    const bApprove = h("button", { type: "button", class: "approve", text: "Aprovar" });
+    const bAdjust = h("button", { type: "button", class: "adjust", text: "Pedir alteração" });
+    bApprove.addEventListener("click", () => act(id, "aprovado"));
+    bAdjust.addEventListener("click", () => act(id, "ajuste"));
+    const msg = h("p", { class: "form-msg", role: "status", "aria-live": "polite" });
+    const mineTxt = h("span");
+    const bUndo = h("button", { type: "button", class: "link-btn", text: "Desfazer" });
+    bUndo.addEventListener("click", () => undo(id));
+    const mine = h("span", { class: "mine", hidden: true }, [mineTxt, bUndo]);
+    const hint = h("p", { class: "hint", text: "Nenhuma decisão é definitiva: dá para trocar de Aprovado para Pedir alteração (e vice-versa), desfazer ou apagar o próprio comentário." });
+    const form = h("div", { class: "form" }, [h("label", { for: taId, text: "Quer alterar algo?" }), ta, h("div", { class: "actions" }, [bApprove, bAdjust]), hint, msg]);
+    const gate = h("p", { class: "gate", text: "Conectando às aprovações…" });
+    const review = h("section", { class: "review", "aria-label": "Aprovação" }, [h("div", { class: "review-head" }, [pill, sub, mine]), thread, gate, form]);
+    blocks.push(review);
+    panels[id] = { pill, sub, thread, ta, buttons: [bApprove, bAdjust, bUndo], bApprove, bAdjust, mine, mineTxt, msg, form, gate, busy: false };
+
+    return h("article", { class: "post", id: "post-" + id }, [renderPreview(post, brand), h("div", { class: "detail" }, blocks)]);
+  }
+
+  /* ---------- abas e painéis ---------- */
+  const tabsEl = document.getElementById("tabs");
+  const panelsEl = document.getElementById("panels");
+  const tabBtns = {}; const brandPanels = {}; const summaries = {};
+
+  BRANDS.forEach(b => {
+    const count = h("span", { class: "count" });
+    const btn = h("button", { type: "button", role: "tab", class: "tab", id: "tab-" + b.id, "data-kind": b.kind, "aria-controls": "painel-" + b.id, "aria-selected": "false" }, [h("span", { class: "dot", "aria-hidden": "true" }), document.createTextNode(b.name), count]);
+    btn.addEventListener("click", () => select(b.id, true));
+    tabBtns[b.id] = { btn, count };
+    tabsEl.append(btn);
+
+    const summary = h("div", { class: "summary" });
+    summaries[b.id] = summary;
+    const notes = h("div", { class: "brand-notes" });
+    b.notes.forEach(n => { const ul = h("ul"); n.items.forEach(i => ul.append(h("li", { text: i }))); notes.append(h("section", null, [h("h3", { text: n.title }), ul])); });
+    const kids = [h("div", { class: "brand-head" }, [h("h2", { text: b.name }), h("p", { class: "intro", text: b.intro }), summary])];
+    b.weeks.forEach(w => {
+      if (w.label) kids.push(h("h3", { class: "week-label" }, [document.createTextNode(w.label), h("span", { text: w.span })]));
+      w.posts.forEach(pid => kids.push(renderPost(pid, POSTS[pid], b)));
+    });
+    // regras e referências da marca ficam no fim, depois dos posts
+    kids.push(h("h3", { class: "week-label", text: "Regras e referências" }), notes);
+    if (b.next) {
+      const nb = BRANDS.find(x => x.id === b.next);
+      kids.push(h("button", { type: "button", class: "next", text: "Seguir para " + nb.name + " →", onclick: () => { select(nb.id, true); try { window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }); } catch (e) { window.scrollTo(0, 0); } } }));
+    }
+    const panel = h("section", { class: "brand", id: "painel-" + b.id, role: "tabpanel", "aria-labelledby": "tab-" + b.id, hidden: true }, kids);
+    brandPanels[b.id] = panel;
+    panelsEl.append(panel);
+  });
+
+  function select(id, push) {
+    if (!brandPanels[id]) id = BRANDS[0].id;
+    BRANDS.forEach(b => {
+      const on = b.id === id;
+      tabBtns[b.id].btn.setAttribute("aria-selected", on ? "true" : "false");
+      brandPanels[b.id].hidden = !on;
+    });
+    if (push) { try { history.replaceState(null, "", "#" + id); } catch (e) {} }
+  }
+  select((location.hash || "").replace("#", ""), false);
+  window.addEventListener("hashchange", () => select((location.hash || "").replace("#", ""), false));
+
+  /* ---------- aprovações (planilha Google via Apps Script) ---------- */
+  // Endereço do Apps Script publicado como app da Web. Enquanto estiver vazio, a página só mostra a pauta.
+  const API_URL = "";
+  const NAME_KEY = "pauta-fip-nome";
+  let mode = "loading";
+  let rows = [];
+  let myName = "";
+  const status = {};
+  const noticeEl = document.getElementById("notice");
+  const nameInput = document.getElementById("meu-nome");
+  const KINDS = { aprovado: "Aprovou", ajuste: "Pediu alteração", comentario: "Comentou" };
+  const norm = s => String(s || "").trim().toLowerCase();
+
+  function setNotice(t) { noticeEl.textContent = t || ""; noticeEl.hidden = !t; }
+
+  try { myName = localStorage.getItem(NAME_KEY) || ""; } catch (e) { myName = ""; }
+  nameInput.value = myName;
+  let nameTimer = 0;
+  nameInput.addEventListener("input", () => {
+    clearTimeout(nameTimer);
+    nameTimer = setTimeout(() => {
+      myName = nameInput.value.trim().slice(0, 60);
+      try { localStorage.setItem(NAME_KEY, myName); } catch (e) {}
+      renderReviews();
+    }, 300);
+  });
+
+  function setMode(m) {
+    mode = m;
+    const gates = {
+      loading: "Carregando as aprovações…",
+      offline: "As aprovações ainda estão sendo configuradas. Por enquanto, dá para ver a pauta."
+    };
+    Object.values(panels).forEach(p => {
+      const ready = m === "ready";
+      p.form.hidden = !ready;
+      p.gate.hidden = ready;
+      p.gate.textContent = gates[m] || "";
+      p.buttons.forEach(b => { b.disabled = !ready || p.busy; });
+    });
+  }
+  setMode("loading");
+
+  function validRow(r) {
+    return r && typeof r === "object" && KINDS[r.kind] && typeof r.at === "number" && typeof r.post === "string" && typeof r.name === "string";
+  }
+
+  function renderReviews() {
+    Object.keys(POSTS).forEach(pid => {
+      const entries = rows.filter(r => r.post === pid).sort((a, b) => a.at - b.at);
+      let last = null;
+      for (let i = entries.length - 1; i >= 0; i--) if (entries[i].kind !== "comentario") { last = entries[i]; break; }
+      status[pid] = last ? last.kind : "pendente";
+
+      const p = panels[pid];
+      p.pill.className = "pill " + status[pid];
+      p.pill.textContent = last ? (last.kind === "aprovado" ? "Aprovado" : "Alteração pedida") : "Aguardando aprovação";
+      p.sub.textContent = last ? (last.name + " · " + fmtTime.format(new Date(last.at))) : (entries.length ? entries.length + " comentário" + (entries.length > 1 ? "s" : "") : "");
+      p.thread.replaceChildren(...entries.map(e => {
+        const own = myName && norm(e.name) === norm(myName) && mode === "ready";
+        const del = own ? h("button", { type: "button", class: "link-btn", text: "Apagar", "aria-label": "Apagar este comentário" }) : null;
+        if (del) del.addEventListener("click", () => removeEntry(pid, e.id));
+        return h("li", null, [
+          h("span", { class: "initial", "aria-hidden": "true", text: (e.name.trim()[0] || "?").toUpperCase() }),
+          h("div", null, [
+            h("div", { class: "who" }, [h("b", { text: own ? e.name + " (você)" : e.name }), h("span", { class: "kind " + e.kind, text: KINDS[e.kind] }), h("span", { text: fmtTime.format(new Date(e.at)) }), del]),
+            e.text ? h("div", { class: "txt", text: e.text }) : null
+          ])
+        ]);
+      }));
+
+      // a decisão de quem está vendo (pelo nome digitado): botão marcado e opção de desfazer
+      let mineLast = null;
+      if (myName) for (let i = entries.length - 1; i >= 0; i--) if (norm(entries[i].name) === norm(myName) && entries[i].kind !== "comentario") { mineLast = entries[i]; break; }
+      const mineStatus = mineLast ? mineLast.kind : null;
+      p.bApprove.textContent = mineStatus === "aprovado" ? "Aprovado ✓" : "Aprovar";
+      p.bApprove.setAttribute("aria-pressed", mineStatus === "aprovado" ? "true" : "false");
+      p.bAdjust.setAttribute("aria-pressed", mineStatus === "ajuste" ? "true" : "false");
+      p.mine.hidden = !mineStatus || mode !== "ready";
+      p.mineTxt.textContent = mineStatus ? "Sua decisão: " + (mineStatus === "aprovado" ? "aprovado" : "alteração pedida") + " · " : "";
+      p.mineLast = mineLast;
+    });
+    paintCounts();
+  }
+
+  function paintCounts() {
+    BRANDS.forEach(b => {
+      const ids = b.weeks.filter(w => !w.noCount).flatMap(w => w.posts);
+      const ok = ids.filter(i => status[i] === "aprovado").length;
+      const adj = ids.filter(i => status[i] === "ajuste").length;
+      const wait = ids.length - ok - adj;
+      tabBtns[b.id].count.textContent = ok + "/" + ids.length;
+      tabBtns[b.id].btn.setAttribute("aria-label", b.name + ", " + ok + " de " + ids.length + " aprovados");
+      summaries[b.id].replaceChildren(
+        h("span", { class: "pill aprovado", text: ok + " aprovado" + (ok === 1 ? "" : "s") }),
+        h("span", { class: "pill ajuste", text: adj + " com alteração" }),
+        h("span", { class: "pill pendente", text: wait + " aguardando" })
+      );
+    });
+  }
+  paintCounts();
+
+  function setBusy(pid, on) {
+    const p = panels[pid]; p.busy = on;
+    p.buttons.forEach(b => { b.disabled = on || mode !== "ready"; });
+  }
+
+  async function load() {
+    const r = await fetch(API_URL + "?action=list&t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("http " + r.status);
+    const data = await r.json();
+    rows = (data && Array.isArray(data.rows) ? data.rows : []).filter(validRow);
+    renderReviews();
+  }
+
+  // texto simples no corpo: o navegador não faz pré-consulta e o Apps Script aceita
+  async function send(body) {
+    const r = await fetch(API_URL, { method: "POST", body: JSON.stringify(body) });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data.ok) throw new Error((data && data.error) || "http " + r.status);
+  }
+
+  function needName(p) {
+    if (myName) return false;
+    p.msg.textContent = "Escreva seu nome no topo da página antes de aprovar.";
+    nameInput.focus();
+    return true;
+  }
+
+  async function run(pid, body, okMsg) {
+    const p = panels[pid];
+    p.msg.textContent = "Salvando…";
+    setBusy(pid, true);
+    try { await send(body); await load(); p.msg.textContent = okMsg; return true; }
+    catch (e) { p.msg.textContent = "Não foi possível salvar agora. Tente de novo em instantes."; return false; }
+    finally { setBusy(pid, false); }
+  }
+
+  function removeEntry(pid, id) {
+    if (mode !== "ready") return;
+    run(pid, { action: "delete", id, name: myName }, "Comentário apagado.");
+  }
+
+  function undo(pid) {
+    const p = panels[pid];
+    if (mode !== "ready" || !p.mineLast) return;
+    run(pid, { action: "delete", id: p.mineLast.id, name: myName }, "Decisão desfeita. O post volta a aguardar a sua aprovação.");
+  }
+
+  async function act(pid, kind) {
+    if (mode !== "ready") return;
+    const p = panels[pid];
+    if (needName(p)) return;
+    const text = p.ta.value.trim().slice(0, 1000);
+    if (kind === "ajuste" && !text) {
+      p.msg.textContent = "Escreva o que quer alterar antes de enviar.";
+      p.ta.focus();
+      return;
+    }
+    const id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+    const ok = await run(pid, { action: "add", id, post: pid, name: myName, kind, text },
+      kind === "aprovado" ? "Aprovação registrada. Se mudar de ideia, é só pedir alteração ou desfazer." : "Pedido de alteração enviado.");
+    if (ok) p.ta.value = "";
+  }
+
+  async function connect() {
+    if (!/^https?:\/\//.test(API_URL)) { setMode("offline"); return; }
+    try { await load(); setMode("ready"); renderReviews(); setNotice(""); }
+    catch (e) { setMode("offline"); setNotice("Não foi possível carregar as aprovações agora. A página tenta de novo sozinha."); }
+    // atualiza a cada 30 s enquanto a página estiver aberta
+    setInterval(() => {
+      if (document.hidden) return;
+      load().then(() => { if (mode !== "ready") { setMode("ready"); renderReviews(); } setNotice(""); }, () => {});
+    }, 30000);
+  }
+  connect();
+})();
+</script>
+</body>
+</html>

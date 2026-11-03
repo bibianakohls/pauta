@@ -293,22 +293,14 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
     {
       id: "fazenda", kind: "fz", name: "Fazenda Paraíso", initials: "FP",
       intro: "Registro da experiência do mel feita na fazenda em 3 de novembro. Um post de feed para manter o perfil ativo com material real e recente.",
-      notes: [
-        { title: "Direção", items: ["Natureza, tranquilidade e experiências diferenciadas, como pede o briefing.", "Sem anunciar a experiência como produto enquanto ela não estiver aberta ao público."] },
-        { title: "Identidade visual", items: ["Arte no padrão do perfil: foto inteira, texto branco, logo no canto superior direito e o tema com fio à esquerda.", "Na prévia, o logo e as fontes são aproximados. No Canva, usar o logo e as fontes oficiais."] },
-        { title: "Para os stories", items: ["Mesma foto com o texto “Prontos para a experiência do mel 🐝”."] }
-      ],
+      notes: [],
       weeks: [{ label: "", span: "", posts: ["fz-apicultor"] }],
       next: "mundokids"
     },
     {
       id: "mundokids", kind: "mk", name: "Mundo Kids", initials: "MK",
       intro: "Retomada do perfil com 2 posts por semana em novembro. Um post por semana vende o salão de festas para novembro e dezembro, que está com procura fraca. O outro traz visita ao parque no fim de semana.",
-      notes: [
-        { title: "Regras que os posts respeitam", items: ["Valor do aluguel do salão nunca aparece. Datas: sempre “consulte disponibilidade”.", "Festas: novembro e dezembro. Telefone no formato 47 98807-4556. Valores sem espaço: R$40.", "O parque não é exclusivo da festa e não existe pacote: decoração e buffet ficam com o cliente.", "Meias obrigatórias; menores de 4 anos com um adulto junto. Horários conforme a agenda da FIP.", "Brusque sempre com (SC)."] },
-        { title: "Identidade visual", items: ["Artes no padrão do perfil: título verde e rosa com contorno branco, faixa azul, caixa roxa e o selo do Mundo Kids.", "Passaporte R$40 (criança, meia-entrada) e horários conforme a agenda da FIP."] },
-        { title: "Sobre as imagens", items: ["Fotos profissionais em alta sempre que existem, todas com o mesmo tratamento de cor e nitidez.", "Os dois reels já estão editados, sem música. O áudio em alta entra direto no Instagram.","Fotos de Páscoa, Dia dos Pais e Copa ficaram de fora por serem de datas que já passaram."] }
-      ],
+      notes: [],
       weeks: [
         { label: "Semana 1", span: "2 a 8 de novembro", posts: ["mk-01", "mk-02"] },
         { label: "Semana 2", span: "9 a 15 de novembro", posts: ["mk-03", "mk-04"] },
@@ -449,7 +441,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   const fmtTime = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
   const reduceMotion = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
 
-  /* ---------- Plaza Rivel: foto inteira com camada translúcida no tom da marca ---------- */
+  /* ---------- Plaza Rivel: padrões do próprio perfil (foto pura, manchete lateral, editorial, caixa alta, mensagem, selo) ---------- */
   Object.assign(POSTS, {
  "pr-01": {
   "brand": "plaza",
@@ -463,18 +455,18 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-01-01.jpg",
-    "alt": "Torre do Plaza Rivel com o logo e céu azul, com o título Vários negócios, um endereço"
+    "img": "img/plaza-v5/pr-01-01.jpg",
+    "alt": "Torre do Plaza Rivel com céu azul e o texto Vários negócios, um endereço"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-01-02.jpg",
-    "alt": "Foto aérea do Plaza com o título 11 parceiros no mesmo prédio"
+    "img": "img/plaza-v5/pr-01-02.jpg",
+    "alt": "Foto aérea do Plaza com a manchete 11 parceiros no mesmo prédio"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-01-03.jpg",
-    "alt": "Fachada do Plaza com véu caramelo e o texto Centro 2, Brusque (SC), venha conhecer"
+    "img": "img/plaza-v5/pr-01-03.jpg",
+    "alt": "Fachada do Plaza com a chamada Onde estamos e o endereço embaixo"
    }
   ],
   "caption": "Vários negócios, um só endereço. 🏢\n\nNo Plaza Rivel, no Centro 2 de Brusque, você almoça, corta o cabelo, grava o seu podcast, treina jiu-jitsu, faz pilates e ainda resolve advogado, seguro e crédito imobiliário, tudo no mesmo prédio.\n\nNos próximos posts, você vai conhecer cada um dos nossos 11 parceiros. Salve este post e venha nos visitar.\n\n📍 R. Gustavo Schlösser, 67 · Centro 2 · Brusque (SC)",
@@ -509,72 +501,73 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-01.jpg",
-    "alt": "Capa: foto aérea do Plaza com o título 11 parceiros para conhecer"
+    "img": "img/plaza-v5/pr-02-01.jpg",
+    "alt": "Foto aérea com o texto Conheça os 11 parceiros do Plaza Rivel"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-02.jpg",
-    "alt": "Card Lúmina Gourmet: chef sorrindo atrás da mesa de pratos"
+    "img": "img/plaza-v5/pr-02-02.jpg",
+    "alt": "Card Lúmina Gourmet: chef atrás da mesa de pratos"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-03.jpg",
-    "alt": "Card Clemente Barbearia: dois barbeiros atendendo no salão"
+    "img": "img/plaza-v5/pr-02-03.jpg",
+    "alt": "Card Clemente Barbearia: detalhe da tesoura no corte"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-04.jpg",
-    "alt": "Card Seven7 Estúdio: letreiro luminoso No Ar"
+    "img": "img/plaza-v5/pr-02-04.jpg",
+    "alt": "Card Seven7 Estúdio: estúdio de gravação com microfones"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-05.jpg",
+    "img": "img/plaza-v5/pr-02-05.jpg",
     "alt": "Card Rilion Gracie: letreiro na fachada do Plaza"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-06.jpg",
+    "img": "img/plaza-v5/pr-02-06.jpg",
     "alt": "Card Studio Fit Life: ainda sem foto"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-07.jpg",
+    "img": "img/plaza-v5/pr-02-07.jpg",
     "alt": "Card Scalvim Roda Advogados: nomes dos advogados na fachada"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-08.jpg",
+    "img": "img/plaza-v5/pr-02-08.jpg",
     "alt": "Card Dra. Cássia Peters Lauritzen no escritório"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-09.jpg",
+    "img": "img/plaza-v5/pr-02-09.jpg",
     "alt": "Card Voltolini Seguros: equipe na frente da corretora"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-10.jpg",
+    "img": "img/plaza-v5/pr-02-10.jpg",
     "alt": "Card Diamante Crédito Imobiliário: consultora no escritório"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-11.jpg",
+    "img": "img/plaza-v5/pr-02-11.jpg",
     "alt": "Card Avanti Fios: letreiro no centro de distribuição"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-02-12.jpg",
-    "alt": "Card Portal Visão+: apresentador do portal"
+    "img": "img/plaza-v5/pr-02-12.jpg",
+    "alt": "Card Portal Visão+: equipe do portal"
    }
   ],
   "caption": "Salve para consultar quando precisar. 📌 Estes são os 11 parceiros do Plaza Rivel:\n\n🍽️ Lúmina Gourmet: complexo gastronômico internacional @luminabrusque\n💈 Clemente Barbearia: cortes clássicos e modernos @clementebarbearia_\n🎙️ Seven7 Estúdio: vídeos, podcasts e entrevistas @seven7_estudio\n🥋 Rilion Gracie: jiu-jitsu @riliongracie.brusque\n🧘 Studio Fit Life: pilates @studiofitlife\n⚖️ Scalvim Roda Advogados @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS e aposentadorias @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário @diamantecreditoimb\n🧵 Avanti Fios: fios para a indústria têxtil @avantifios\n📰 Portal Visão+: notícias de Brusque @portalvisaomais\n\nMarque quem precisa conhecer algum deles.",
   "cta": "Salve para consultar",
   "todo": [
    "Se são mesmo 11 parceiros hoje (algum entrou ou saiu?)",
-   "Foto do Studio Fit Life e uma de dentro da Rilion Gracie"
+   "Foto do Studio Fit Life e uma de dentro da Rilion Gracie",
+   "Fotos originais dos parceiros em alta: as do Instagram chegam pequenas (640 a 1440 px)"
   ],
-  "source": "Capa: Drive DJI_0207 (drone com as fachadas). Cards: fotos dos perfis dos parceiros; Rilion Gracie e Scalvim Roda pela fachada (Drive IMG_7921 e IMG_7817)."
+  "source": "Capa: Drive DJI_0207 (drone com as fachadas). Cards: fotos dos perfis dos parceiros; Rilion Gracie e Scalvim Roda pela fachada (Drive IMG_7921 e IMG_7817). Cada card escolhe o lado do texto pela foto, sem cobrir rosto."
  },
  "pr-03": {
   "brand": "plaza",
@@ -588,30 +581,30 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-03-01.jpg",
-    "alt": "Sala vazia com escada metálica, com o título Seu negócio pode estar aqui"
+    "img": "img/plaza-v5/pr-03-01.jpg",
+    "alt": "Sala com escada e a chamada Seu negócio pode estar aqui, com o contato embaixo"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-03-02.jpg",
-    "alt": "Sala vazia com trilhos de luz e janela de vidro"
+    "img": "img/plaza-v5/pr-03-02.jpg",
+    "alt": "Sala vazia com trilhos de luz"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-03-03.jpg",
-    "alt": "Sala de pé-direito alto com escada"
+    "img": "img/plaza-v5/pr-03-03.jpg",
+    "alt": "Sala de pé-direito alto com o selo circular Salas disponíveis"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-03-04.jpg",
-    "alt": "Sala com véu caramelo e o texto Agende uma visita, com o WhatsApp da locação"
+    "img": "img/plaza-v5/pr-03-04.jpg",
+    "alt": "Sala com a mensagem Agende sua visita e o contato"
    }
   ],
-  "caption": "Seu negócio pode estar aqui. ✨\n\nO Plaza Rivel tem [quantas salas e metragens] livres no Centro 2 de Brusque, ao lado de 11 parceiros que já movimentam o prédio todos os dias: gastronomia, serviços, treino e bem-estar.\n\nChame no WhatsApp [número da locação] e agende uma visita.",
+  "caption": "Seu negócio pode estar aqui. ✨\n\nO Plaza Rivel tem [quantas salas e metragens] livres no Centro 2 de Brusque, ao lado de 11 parceiros que já movimentam o prédio todos os dias: gastronomia, serviços, treino e bem-estar.\n\nFale com a gente pelo (47) 98817-1437 e agende uma visita.",
   "cta": "Agende uma visita pelo WhatsApp",
   "todo": [
    "Quantas salas estão livres e as metragens",
-   "WhatsApp da locação",
+   "Se o (47) 98817-1437, que está no post Institucional do perfil, é o WhatsApp da locação",
    "Se o valor do aluguel fica fora do post"
   ],
   "source": "Drive: IMG_2652, IMG_2653, IMG_2661 e IMG_2654 (salas vazias). Ligar ao destaque Locação."
@@ -632,27 +625,27 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-04-01.jpg",
-    "alt": "Capa: barbeiro passando a máquina no cabelo do cliente, com o título Quem faz o Plaza, Clemente Barbearia"
+    "img": "img/plaza-v5/pr-04-01.jpg",
+    "alt": "Capa: barbeiro passando a máquina, com a manchete Quem faz o Plaza"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-04-02.jpg",
-    "alt": "Cena: dois barbeiros atendendo no salão com luzes hexagonais"
+    "img": "img/plaza-v5/pr-04-02.jpg",
+    "alt": "Cena: dois barbeiros atendendo no salão"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-04-03.jpg",
+    "img": "img/plaza-v5/pr-04-03.jpg",
     "alt": "Cena: detalhe da tesoura no cabelo"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-04-04.jpg",
+    "img": "img/plaza-v5/pr-04-04.jpg",
     "alt": "Cena: acabamento na navalha"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-04-05.jpg",
+    "img": "img/plaza-v5/pr-04-05.jpg",
     "alt": "Cena: cliente com o corte pronto, de perfil"
    }
   ],
@@ -691,22 +684,22 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-05-01.jpg",
-    "alt": "Capa: foto aérea do Plaza, só com o selo Plaza por dentro"
+    "img": "img/plaza-v5/pr-05-01.jpg",
+    "alt": "Capa: foto aérea do Plaza, só com a aba Plaza por dentro"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-05-02.jpg",
-    "alt": "Cena: varanda do restaurante O'Italiano, no Lúmina"
+    "img": "img/plaza-v5/pr-05-02.jpg",
+    "alt": "Cena: chef do Lúmina no salão"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-05-03.jpg",
+    "img": "img/plaza-v5/pr-05-03.jpg",
     "alt": "Cena: letreiro da Rilion Gracie na fachada"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-05-04.jpg",
+    "img": "img/plaza-v5/pr-05-04.jpg",
     "alt": "Cena a gravar: aparelhos de pilates do Studio Fit Life"
    }
   ],
@@ -732,7 +725,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "brand": "plaza",
   "date": "Sex 13/11",
   "quadro": "Vitrine",
-  "format": "Carrossel · 4 cards · collab",
+  "format": "Carrossel · 3 cards · collab",
   "goal": "Mostrar um parceiro",
   "ads": false,
   "photoOnly": true,
@@ -744,23 +737,18 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-06-01.jpg",
-    "alt": "Capa: letreiro Avanti no centro de distribuição, só com o selo Vitrine"
+    "img": "img/plaza-v5/pr-06-01.jpg",
+    "alt": "Capa: letreiro Avanti no centro de distribuição, com a assinatura Plaza Rivel e Avanti Fios"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-06-02.jpg",
-    "alt": "Centro de distribuição da Avanti com o texto +25 anos com a indústria têxtil"
+    "img": "img/plaza-v5/pr-06-02.jpg",
+    "alt": "Centro de distribuição da Avanti com a manchete +25 anos"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-06-03.jpg",
-    "alt": "Cones de fio coloridos com o texto Fios para a sua produção"
-   },
-   {
-    "t": "img",
-    "img": "img/plaza-v2/pr-06-04.jpg",
-    "alt": "Fachada do Plaza com a loja da Avanti"
+    "img": "img/plaza-v5/pr-06-03.jpg",
+    "alt": "Fachada do Plaza com a loja da Avanti e o selo circular Avanti Fios aqui no Plaza Rivel"
    }
   ],
   "caption": "Vitrine da semana: Avanti Fios. 🧵\n\nHá mais de 25 anos apoiando a indústria, a Avanti distribui fios para tecelagens, malharias, barbantes, redes, meias, fitas e artesanato. E está aqui no Plaza Rivel, com [o que funciona no Plaza: escritório, showroom ou atendimento].\n\nConheça: @avantifios",
@@ -769,7 +757,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
    "O que a Avanti tem no Plaza",
    "Se a Avanti aceita o collab"
   ],
-  "source": "Cards 1 a 3: perfil @avantifios (letreiro, CD Avanti e fios). Card 4: Drive IMG_7819 (fachada no Plaza).",
+  "source": "Cards 1 e 2: perfil @avantifios (letreiro e CD Avanti). Card 3: Drive IMG_7819 (fachada no Plaza).",
   "headline": "Vitrine da semana: Avanti Fios"
  },
  "pr-07": {
@@ -790,33 +778,33 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-07-01.jpg",
-    "alt": "Capa: fachada do Plaza com o título Direito, seguros e crédito num só endereço"
+    "img": "img/plaza-v5/pr-07-01.jpg",
+    "alt": "Fachada com os nomes dos advogados e a manchete Direito, seguros e crédito"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-07-02.jpg",
+    "img": "img/plaza-v5/pr-07-02.jpg",
     "alt": "Card Scalvim Roda Advogados"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-07-03.jpg",
-    "alt": "Card Dra. Cássia Peters Lauritzen, direito previdenciário"
+    "img": "img/plaza-v5/pr-07-03.jpg",
+    "alt": "Card Dra. Cássia Peters Lauritzen"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-07-04.jpg",
-    "alt": "Card Voltolini Seguros, seguros há 36 anos"
+    "img": "img/plaza-v5/pr-07-04.jpg",
+    "alt": "Card Voltolini Seguros"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-07-05.jpg",
+    "img": "img/plaza-v5/pr-07-05.jpg",
     "alt": "Card Diamante Crédito Imobiliário"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-07-06.jpg",
-    "alt": "Fachada com véu caramelo e o texto Marque quem precisa resolver"
+    "img": "img/plaza-v5/pr-07-06.jpg",
+    "alt": "Fachada com a mensagem Marque quem precisa"
    }
   ],
   "caption": "Direito, seguros e crédito num só endereço. ⚖️🛡️🏠\n\n⚖️ Scalvim Roda Advogados: sala D04, piso superior @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS, aposentadorias, BPC/LOAS e benefício por incapacidade @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário: crédito para o seu imóvel @diamantecreditoimb\n\nMarque quem precisa resolver isso ainda este ano.",
@@ -842,12 +830,12 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-08-01.jpg",
-    "alt": "Capa: microfone de podcast em frente ao letreiro Seven QG Digital, com o título Quem faz o Plaza, Seven7 Estúdio"
+    "img": "img/plaza-v5/pr-08-01.jpg",
+    "alt": "Capa: estúdio do Seven7 com o texto Quem faz o Plaza, Seven7 Estúdio"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-08-02.jpg",
+    "img": "img/plaza-v5/pr-08-02.jpg",
     "alt": "Cena: letreiro luminoso No Ar aceso no escuro"
    }
   ],
@@ -882,22 +870,22 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-09-01.jpg",
-    "alt": "Capa: chef do Lúmina sorrindo atrás da mesa de pratos, só com o selo Vitrine"
+    "img": "img/plaza-v5/pr-09-01.jpg",
+    "alt": "Capa: chef do Lúmina atrás da mesa de pratos, com a assinatura Plaza Rivel e Lúmina Gourmet"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-09-02.jpg",
-    "alt": "Taça e garrafa de vinho tinto na adega do Lúmina"
+    "img": "img/plaza-v5/pr-09-02.jpg",
+    "alt": "Taça de vinho com o texto Uma pausa à mesa antes do feriado"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-09-03.jpg",
-    "alt": "Varanda do O'Italiano com o texto cinco cozinhas: Brasil, Uruguai, Itália, México e Japão"
+    "img": "img/plaza-v5/pr-09-03.jpg",
+    "alt": "Chef de dólmã branco com um prato e o selo circular Brasil, Uruguai, Itália, México, Japão"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-09-04.jpg",
+    "img": "img/plaza-v5/pr-09-04.jpg",
     "alt": "Fachada do Lúmina Gourmet no Plaza"
    }
   ],
@@ -907,7 +895,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
    "Horário do Lúmina no feriado de 20/11",
    "Se o espaço kids funciona no feriado"
   ],
-  "source": "Cards 1 a 3: perfil @luminabrusque (chef, vinho, O'Italiano). Card 4: Drive DJI_0208 (fachada do Lúmina).",
+  "source": "Cards 1 a 3: perfil @luminabrusque. Card 4: Drive DJI_0208 (fachada do Lúmina).",
   "headline": "Antes do feriado, uma pausa à mesa"
  },
  "pr-10": {
@@ -922,18 +910,18 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-10-01.jpg",
-    "alt": "Capa: fachada do Plaza com véu grafite e o título Black Friday no Plaza, sexta 27/11"
+    "img": "img/plaza-v5/pr-10-01.jpg",
+    "alt": "Fachada do Plaza com a mensagem As ofertas dos nossos parceiros, num só endereço, e o título Black Friday"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-10-02.jpg",
+    "img": "img/plaza-v5/pr-10-02.jpg",
     "alt": "Modelo de card de oferta: foto do produto, nome do parceiro, oferta e @"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-10-03.jpg",
-    "alt": "Fachada com véu grafite e o texto Sexta, 27/11, salve e marque alguém"
+    "img": "img/plaza-v5/pr-10-03.jpg",
+    "alt": "Fachada com o selo circular Black Friday 27.11"
    }
   ],
   "caption": "A Black Friday do Plaza Rivel é nesta sexta, 27/11. 🖤\n\nSeparamos as ofertas dos nossos parceiros:\n[lista de ofertas: parceiro, oferta e validade]\n\nSalve este post e marque quem vai com você.",
@@ -962,18 +950,13 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-11-01.jpg",
-    "alt": "Capa: corredor do Plaza com o título Uma sala por dentro"
+    "img": "img/plaza-v5/pr-11-01.jpg",
+    "alt": "Capa: corredor do Plaza com a chamada Uma sala por dentro e o contato"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-11-02.jpg",
+    "img": "img/plaza-v5/pr-11-02.jpg",
     "alt": "Cena: sala vazia com piso de madeira e janela grande"
-   },
-   {
-    "t": "img",
-    "img": "img/plaza-v2/pr-11-03.jpg",
-    "alt": "Cena do depoimento: equipe da Voltolini Seguros na frente da corretora"
    }
   ],
   "steps": [
@@ -983,15 +966,15 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
    "Depoimento de um parceiro sobre por que escolheu o Plaza (sugestão: Voltolini Seguros)",
    "Cartela: salas disponíveis + WhatsApp"
   ],
-  "caption": "Veja uma sala livre do Plaza Rivel por dentro. 👀\n\nSão [metragem] no Centro 2 de Brusque, com 11 parceiros como vizinhos. E quem já está aqui conta por que escolheu o Plaza.\n\nAgende uma visita pelo WhatsApp [número da locação].",
+  "caption": "Veja uma sala livre do Plaza Rivel por dentro. 👀\n\nSão [metragem] no Centro 2 de Brusque, com 11 parceiros como vizinhos. E quem já está aqui conta por que escolheu o Plaza.\n\nAgende uma visita pelo (47) 98817-1437.",
   "cta": "Agende uma visita",
   "todo": [
    "Qual sala mostrar e a metragem",
    "Qual parceiro grava o depoimento",
-   "WhatsApp da locação",
+   "Se o (47) 98817-1437 é o WhatsApp da locação",
    "Verba e público do anúncio"
   ],
-  "source": "Capa: Drive IMG_2660 (corredor). Cenas: Drive IMG_2655 (sala) e equipe da Voltolini (perfil @voltoliniseguros).",
+  "source": "Capa: Drive IMG_2660 (corredor). Cena: Drive IMG_2655 (sala). O depoimento é gravado.",
   "stepsTitle": "Roteiro do reels",
   "adsLabel": "Impulsionar"
  },
@@ -1009,8 +992,8 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-12-01.jpg",
-    "alt": "Capa: vista aérea da galeria e do estacionamento, só com o selo Black Friday"
+    "img": "img/plaza-v5/pr-12-01.jpg",
+    "alt": "Capa: vista aérea da galeria e do estacionamento, só com a aba Black Friday"
    }
   ],
   "steps": [
@@ -1041,12 +1024,12 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-13-01.jpg",
-    "alt": "Capa: torre do Plaza Rivel com o título Quem cuida do Plaza todos os dias"
+    "img": "img/plaza-v5/pr-13-01.jpg",
+    "alt": "Capa: torre do Plaza com a mensagem Obrigado a quem cuida do Plaza e o título Dia do Síndico"
    },
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-13-02.jpg",
+    "img": "img/plaza-v5/pr-13-02.jpg",
     "alt": "Foto a tirar até 28/11: equipe do Plaza"
    }
   ],
@@ -1078,14 +1061,14 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v2/pr-previa-perfil.jpg",
-    "alt": "Prévia do perfil @plazarivel com os 13 posts novos na grade, os três fixados no topo e os posts antigos embaixo",
-    "free": true
+    "img": "img/plaza-v5/pr-previa-perfil.jpg",
+    "free": true,
+    "alt": "Prévia do perfil @plazarivel com os 13 posts novos na grade, os três fixados no topo e os posts antigos embaixo"
    }
   ],
   "list": [
    "Fixados no topo: apresentação, guia dos parceiros e salas",
-   "Todas as capas com foto inteira e camada translúcida, sem fundo sólido",
+   "Os padrões do próprio perfil se alternam: foto pura com assinatura, manchete lateral em itálico, editorial com cursiva, chamada em caixa alta, mensagem com logo no topo e selo circular",
    "Destaque novo de Black Friday, de 23 a 30/11, ao lado de Locação, Serviços e Sobre Nós"
   ],
   "source": "Montagem com as pré-artes desta aba e os posts que já estão no perfil."
@@ -1098,40 +1081,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
  "initials": "PR",
  "tagInHeader": true,
  "intro": "13 posts em novembro, 3 por semana, cada um mostrando o serviço de um ou mais parceiros. Começa pela prévia de como a grade fica no fim do mês.",
- "notes": [
-  {
-   "title": "Direção",
-   "items": [
-    "Mostrar o Plaza como um endereço de negócios. As empresas do prédio são sempre chamadas de parceiros.",
-    "Cada parceiro aparece com o serviço que ele mesmo descreve no perfil e com o @.",
-    "Os três primeiros posts viram os fixados do perfil."
-   ]
-  },
-  {
-   "title": "Identidade visual",
-   "items": [
-    "No padrão do perfil: foto inteira com camada translúcida em caramelo ou grafite. Nada de fundo de cor sólida.",
-    "Pouco texto na arte: o selo PLAZA RIVEL no topo e, quando tem título, poucas palavras com uma em letra cursiva. O resto vai na legenda.",
-    "Na prévia, o logo e as fontes são aproximados. No Canva, usar o logo e as fontes oficiais."
-   ]
-  },
-  {
-   "title": "Sobre as imagens",
-   "items": [
-    "Fotos do Drive do Plaza (drone, fachada e salas) e dos perfis dos parceiros.",
-    "Faltam fotos do Studio Fit Life e de dentro da Rilion Gracie (por enquanto, só a fachada)."
-   ]
-  },
-  {
-   "title": "Ainda falta confirmar",
-   "items": [
-    "WhatsApp da locação e metragens das salas",
-    "Ofertas de Black Friday dos parceiros, até sexta 20/11",
-    "Horário do Lúmina no feriado de 20/11",
-    "O que a Avanti tem no Plaza e as áreas da Scalvim Roda"
-   ]
-  }
- ],
+ "notes": [],
  "weeks": [
   {
    "label": "Prévia do perfil",
@@ -1371,8 +1321,6 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
       if (w.label) kids.push(h("h3", { class: "week-label" }, [document.createTextNode(w.label), h("span", { text: w.span })]));
       w.posts.forEach(pid => kids.push(renderPost(pid, POSTS[pid], b)));
     });
-    // regras e referências da marca ficam no fim, depois dos posts
-    kids.push(h("h3", { class: "week-label", text: "Regras e referências" }), notes);
     if (b.next) {
       const nb = BRANDS.find(x => x.id === b.next);
       kids.push(h("button", { type: "button", class: "next", text: "Seguir para " + nb.name + " →", onclick: () => { select(nb.id, true); try { window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }); } catch (e) { window.scrollTo(0, 0); } } }));

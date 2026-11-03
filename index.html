@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Aprovação de Pauta</title>
+<title>Aprovação de Planejamento</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito:wght@800;900&family=Poppins:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap">
@@ -28,6 +28,8 @@
   --warn-bg: #FBEBDC;
   --wait: #5B6560;
   --wait-bg: #ECEEEB;
+  --prog: #1F4F8A;
+  --prog-bg: #E3ECF8;
   --mark: #FFEFB0;
   --mark-ink: #4F3B00;
   --focus: #2B7FFF;
@@ -62,14 +64,14 @@
   :root:not([data-theme="light"]) {
     --bg: #101513; --surface: #18201C; --sunken: #212A26; --ink: #E6ECE8; --muted: #9AA6A0; --line: #2C3631;
     --accent: #7CC5AA; --accent-ink: #0E1A15; --ok: #74D49E; --ok-bg: #16301F; --warn: #F0A766; --warn-bg: #3A2412;
-    --wait: #A3ADA8; --wait-bg: #252D29; --mark: #4A3D0C; --mark-ink: #FFE7A0; --focus: #7FB2FF;
+    --wait: #A3ADA8; --wait-bg: #252D29; --prog: #8DB8F0; --prog-bg: #172638; --mark: #4A3D0C; --mark-ink: #FFE7A0; --focus: #7FB2FF;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #101513; --surface: #18201C; --sunken: #212A26; --ink: #E6ECE8; --muted: #9AA6A0; --line: #2C3631;
   --accent: #7CC5AA; --accent-ink: #0E1A15; --ok: #74D49E; --ok-bg: #16301F; --warn: #F0A766; --warn-bg: #3A2412;
-  --wait: #A3ADA8; --wait-bg: #252D29; --mark: #4A3D0C; --mark-ink: #FFE7A0; --focus: #7FB2FF;
+  --wait: #A3ADA8; --wait-bg: #252D29; --prog: #8DB8F0; --prog-bg: #172638; --mark: #4A3D0C; --mark-ink: #FFE7A0; --focus: #7FB2FF;
   color-scheme: dark;
 }
 
@@ -95,6 +97,9 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
 .tab[data-kind="fz"] .dot { background: var(--fz-honey); box-shadow: inset 0 0 0 2px var(--fz-green); }
 .tab[data-kind="pr"] .dot { background: var(--pr-caramel); box-shadow: inset 0 0 0 2px var(--pr-caramel-deep); }
 .tab[data-kind="mk"] .dot { background: var(--mk-blue); box-shadow: inset 0 0 0 2px var(--mk-lime); }
+.tab[data-kind="wip"] .dot { background: transparent; box-shadow: inset 0 0 0 2px var(--muted); }
+.wip-box { display: grid; gap: 6px; justify-items: start; background: var(--surface); border: 1px dashed var(--line); border-radius: 16px; padding: 28px 22px; color: var(--muted); }
+.wip-box b { font: 700 18px/1.25 var(--f-display); color: var(--ink); }
 .tab .count { font-weight: 500; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .tab[aria-selected="true"] .count { color: var(--bg); opacity: 0.75; }
@@ -175,6 +180,19 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
 .mk-text::before { content: ""; position: absolute; width: 70cqw; height: 70cqw; border-radius: 50%; right: -26cqw; bottom: -28cqw; background: rgba(255, 255, 255, 0.08); }
 .mk-text::after { content: "\2726"; position: absolute; left: 9cqw; bottom: 12cqw; color: rgba(255, 255, 255, 0.35); font-size: 9cqw; line-height: 1; }
 .mk-text.pink .mk-title .pk { color: var(--mk-blue); }
+/* card dividido: foto em cima e título numa faixa de cor, para nunca cobrir rosto */
+.mk-split { background: var(--mk-blue); }
+.mk-split.pink { background: var(--mk-pink); }
+.mk-split .ph { position: absolute; left: 0; right: 0; top: 0; height: 58%; overflow: hidden; }
+.slide.mk-split .ph img { width: 100%; height: 100%; object-fit: cover; }
+.slide.mk-split .mk-logo { top: calc(58% - 8.5cqw); }
+.mk-split .band { position: absolute; left: 6cqw; right: 6cqw; top: calc(58% + 11cqw); bottom: 4cqw; display: grid; align-content: center; justify-items: center; text-align: center; }
+.mk-split .mk-title { font-size: 10.5cqw; }
+.mk-split .mk-pill { margin-top: 2.2cqw; }
+.mk-split.pink .mk-title .pk { color: var(--mk-blue); }
+/* faixa sobre fundo azul fica rosa, para não sumir */
+.mk-split:not(.pink) .mk-pill, .mk-text:not(.pink) .mk-pill { background: var(--mk-pink); }
+.mk-title.flat { transform: none; }
 .mk-cal { background: var(--mk-blue); display: grid; align-content: start; justify-items: center; gap: 1.6cqw; padding: 25cqw 7cqw 6cqw; }
 .mk-cal .mk-logo { top: 5cqw; }
 .mk-cal .small { font: 400 5cqw/1 var(--f-mk-display); text-transform: uppercase; color: var(--mk-white); letter-spacing: 0.02em; }
@@ -236,6 +254,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
 .pill.pendente { background: var(--wait-bg); color: var(--wait); }
 .pill.aprovado { background: var(--ok-bg); color: var(--ok); }
 .pill.ajuste { background: var(--warn-bg); color: var(--warn); }
+.pill.andamento { background: var(--prog-bg); color: var(--prog); }
 .review-sub { font-size: 13px; color: var(--muted); }
 .thread { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .thread li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; }
@@ -274,7 +293,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
 <div class="wrap">
   <header class="top">
     <span class="eyebrow">Grupo FIP · Social media · Novembro 2026</span>
-    <h1>Aprovação de Pauta</h1>
+    <h1>Aprovação de Planejamento</h1>
     <p class="lead">Veja cada post e aprove, ou escreva o que quer alterar. Trechos <mark>marcados em amarelo</mark> ainda precisam ser confirmados antes de publicar.</p>
     <label class="whoami" for="meu-nome">Seu nome <input id="meu-nome" type="text" maxlength="60" autocomplete="name" placeholder="Ex.: Ana Paula"><span>aparece junto da sua aprovação</span></label>
     <p class="notice" id="notice" hidden></p>
@@ -288,7 +307,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
 (function () {
   "use strict";
 
-  /* ---------- conteúdo da pauta ---------- */
+  /* ---------- conteúdo do planejamento ---------- */
   const BRANDS = [
     {
       id: "fazenda", kind: "fz", name: "Fazenda Paraíso", initials: "FP",
@@ -327,20 +346,20 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
         { t: "mkphoto", img: "img/mk-salao.jpg", alt: "Salão de festas com mesas redondas e toalhas brancas", title: "Nosso salão\nde festas", pill: "Até 50 adultos sentados" },
         { t: "mktext", title: "O que está\nincluso", box: "20 ingressos para o parque, monitoras para crianças acima de 3 anos, limpeza, estacionamento e ar-condicionado" },
         { t: "mkphoto", img: "img/mk-festa-bolinhas.jpg", alt: "Crianças brincando no parque", title: "20 ingressos\nno parque", pill: "Inclusos no aluguel" },
-        { t: "mktext", tone: "pink", title: "Novembro\ne dezembro", pill: "Consulte disponibilidade", box: "WhatsApp 47 98807-4556" }
+        { t: "mktext", tone: "pink", title: "Novembro\ne dezembro", pill: "Consulte disponibilidade", box: "WhatsApp (47) 98807-4556" }
       ],
-      caption: "Festa de aniversário com clima de fim de ano? 🎈 O salão do Mundo Kids fica anexo ao parque, recebe até 50 adultos sentados e já inclui 20 ingressos para a criançada brincar, monitoras, limpeza, estacionamento e ar-condicionado.\n\nConsulte a disponibilidade para novembro e dezembro pelo WhatsApp 47 98807-4556 e garanta a sua data!",
+      caption: "Festa de aniversário com clima de fim de ano? 🎈 O salão do Mundo Kids fica anexo ao parque, recebe até 50 adultos sentados e já inclui 20 ingressos para a criançada brincar, monitoras, limpeza, estacionamento e ar-condicionado.\n\nConsulte a disponibilidade para novembro e dezembro e garanta a sua data!\n\n📲 Reservas e informações: WhatsApp (47) 98807-4556\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Garanta sua data pelo WhatsApp",
       source: "Pasta aniversários e fotos do parque. Itens inclusos e WhatsApp da mensagem padrão do salão. O valor do aluguel não aparece no post."
     },
     "mk-02": {
-      brand: "mundokids", date: "Sex 6/11", format: "Reels · 13 s", goal: "Trazer visita", ads: false,
+      brand: "mundokids", date: "Sex 6/11", format: "Reels · 20 s", goal: "Trazer visita", ads: false,
       headline: "Fim de semana é no Mundo Kids!",
       reel: true,
-      slides: [{ t: "video", src: "media/mk-reels-fimdesemana-v3.mp4", poster: "img/mk-reels-fds-poster-v3.jpg" }],
-      steps: ["Risada no piscinão de bolinhas com o título", "Escorregador", "Pula-pula", "Balanço", "Área dos pequenos", "Monitoras de olho na diversão", "Cartela final: sábado das 9h às 19h, domingo (8/11) das 10h às 17h30, passaporte R$40, na FIP em Brusque (SC)"],
+      slides: [{ t: "video", src: "media/mk-reels-fimdesemana-v4.mp4", poster: "img/mk-reels-fds-poster-v4.jpg" }],
+      steps: ["Risada no piscinão de bolinhas com o título", "Escorregador", "Pula-pula", "Balanço", "Área dos pequenos", "Monitoras de olho na diversão", "Cartela final: sábado das 9h às 19h, domingo (08/11) das 10h às 17h30, passaporte R$40,00, na FIP em Brusque (SC)"],
       stepsTitle: "Roteiro",
-      caption: "Escorregador, pula-pula, balanço e muito mais 🤸 Seu fim de semana já tem programa: Mundo Kids, aqui dentro da FIP.\n\nSábado das 9h às 19h e, neste domingo (8/11), das 10h às 17h30, com Feira de Artesanato na FIP. Passaporte infantil a R$40. Vem brincar!",
+      caption: "Escorregador, pula-pula, balanço e muito mais 🤸 Seu fim de semana já tem programa: Mundo Kids, na FIP.\n\nSábado das 9h às 19h e, neste domingo (08/11), das 10h às 17h30, com Feira de Artesanato na FIP. Passaporte infantil a R$40,00.\n\nVenha brincar com a gente!\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Vem brincar no fim de semana",
       source: "Vídeos do acervo com cor e nitidez tratadas; monitoras em foto. Horários da agenda da FIP. Sem música: o áudio em alta entra direto no Instagram."
     },
@@ -348,10 +367,10 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
       brand: "mundokids", date: "Qua 11/11", format: "Reels · 15 s", goal: "Vender festas", ads: false,
       headline: "Vem conhecer o salão de festas",
       reel: true,
-      slides: [{ t: "video", src: "media/mk-reels-salao-v5.mp4", poster: "img/mk-reels-salao-poster-v3.jpg" }],
-      steps: ["Mesa decorada com o título", "Nosso salão, anexo ao parque", "Cozinha de apoio: geladeira, fogão e fornos", "Decore do seu jeito", "20 ingressos para o parque inclusos", "Até 50 convidados (adultos sentados)", "Parabéns em família", "Cartela final: novembro e dezembro, consulte disponibilidade, WhatsApp 47 98807-4556"],
+      slides: [{ t: "video", src: "media/mk-reels-salao-v6.mp4", poster: "img/mk-reels-salao-poster-v3.jpg" }],
+      steps: ["Mesa decorada com o título", "Nosso salão, anexo ao parque", "Cozinha de apoio: geladeira, fogão e fornos", "Decore do seu jeito", "20 ingressos para o parque inclusos", "Até 50 convidados (adultos sentados)", "Parabéns em família", "Cartela final: novembro e dezembro, consulte disponibilidade, WhatsApp (47) 98807-4556"],
       stepsTitle: "Roteiro",
-      caption: "Esse é o salão de festas do Mundo Kids ✨ Anexo ao parque, com espaço para até 50 adultos sentados, cozinha de apoio, ar-condicionado e 20 ingressos para a criançada brincar. A decoração e o buffet ficam do seu jeito.\n\nConsulte a disponibilidade para novembro e dezembro pelo WhatsApp 47 98807-4556.",
+      caption: "Esse é o salão de festas do Mundo Kids ✨ Anexo ao parque, com espaço para até 50 adultos sentados, cozinha de apoio, ar-condicionado e 20 ingressos para a criançada brincar. A decoração e o buffet ficam do seu jeito.\n\nConsulte a disponibilidade para novembro e dezembro.\n\n📲 Reservas e informações: WhatsApp (47) 98807-4556\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Consulte disponibilidade",
       source: "Fotos das pastas aniversários e espaço, todas com o mesmo tratamento de cor. Dados do salão da mensagem padrão. Sem música: o áudio em alta entra direto no Instagram."
     },
@@ -359,17 +378,17 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
       brand: "mundokids", date: "Sex 13/11", format: "Carrossel · 7 cards", goal: "Informar os pais", ads: false,
       headline: "Guia dos pais",
       slides: [
-        { t: "mkphoto", img: "img/mk-guia-capa.jpg", alt: "Menina sorrindo no piscinão de bolinhas", title: "Guia\ndos pais", pill: "Tudo para curtir o Mundo Kids" },
-        { t: "mktext", title: "Horários", box: "De segunda a sábado das 9h às 19h e domingos conforme programação da FIP" },
-        { t: "mktext", tone: "pink", title: "Passaporte", pill: "R$40,00", box: "Valor para crianças, já com meia-entrada. Ingresso inteiro: R$80." },
-        { t: "mkphoto", img: "img/mk-area-baby.jpg", alt: "Crianças pequenas na piscina de bolinhas da área baby, com mural de nuvens", title: "Área dos\npequenos" },
-        { t: "mkphoto", img: "img/mk-monitoras.jpg", alt: "Monitora sorrindo na área baby", title: "Monitoras", pill: "De olho na diversão" },
-        { t: "mktext", title: "Regrinhas\nda casa", box: "Uso de meias obrigatório\nMenores de 4 anos brincam com um adulto junto" },
-        { t: "mktext", tone: "pink", title: "Onde\nestamos", pill: "Na FIP em Brusque (SC)" }
+        { t: "mksplit", img: "img/mk-guia-capa.jpg", py: "38%", flat: true, alt: "Menina sorrindo no piscinão de bolinhas", title: "Guia dos pais", pill: "Tudo para curtir o Mundo Kids" },
+        { t: "mktext", tone: "pink", flat: true, title: "Horários", box: "De segunda a sábado das 9h às 19h e domingos conforme programação da FIP" },
+        { t: "mktext", flat: true, title: "Passaporte", pill: "R$40,00", box: "Valor para crianças, já com meia-entrada. Ingresso inteiro: R$80,00." },
+        { t: "mksplit", tone: "pink", img: "img/mk-area-baby.jpg", py: "12%", flat: true, alt: "Crianças pequenas na piscina de bolinhas da área baby, com mural de nuvens", title: "Área dos\npequenos" },
+        { t: "mksplit", img: "img/mk-monitoras.jpg", py: "36%", flat: true, alt: "Monitora sorrindo na área baby", title: "Monitoras", pill: "De olho na diversão" },
+        { t: "mktext", tone: "pink", flat: true, title: "Regrinhas\nda casa", box: "Uso de meias obrigatório\nMenores de 4 anos brincam com um adulto junto" },
+        { t: "mktext", flat: true, title: "Onde\nestamos", pill: "Na FIP em Brusque (SC)" }
       ],
-      caption: "Vem para a FIP Baby (11 a 15/11)? Aproveita e traz os pequenos para o Mundo Kids! 👶 Salva esse post para a próxima visita: juntamos horários, passaporte, a área dos pequenos e as regrinhas da casa.\n\nFicou alguma dúvida? Manda aqui nos comentários ou no WhatsApp 47 98807-4556.",
+      caption: "Vem para a FIP Baby (11 a 15/11)? Aproveita e traz os pequenos para o Mundo Kids! 👶 Salva esse post para a próxima visita: juntamos horários, passaporte, a área dos pequenos e as regrinhas da casa.\n\nFicou alguma dúvida? Manda aqui nos comentários ou no WhatsApp (47) 98807-4556.\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Salve para a próxima visita",
-      source: "Fotos profissionais do parque com tratamento de cor; monitoras: foto nova. Horários da agenda da FIP; passaporte e regras confirmados pela equipe. Sai durante a FIP Baby."
+      source: "Fotos profissionais do parque com tratamento de cor; monitoras: foto nova. Cards de foto com o título numa faixa de cor embaixo da foto, para não cobrir rosto. Horários da agenda da FIP; passaporte e regras confirmados pela equipe. Sai durante a FIP Baby."
     },
     "mk-05": {
       brand: "mundokids", date: "Ter 17/11", format: "Carrossel · 6 cards", goal: "Vender festas", ads: false,
@@ -380,9 +399,9 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
         { t: "mktext", tone: "pink", title: "2. Reserve", box: "50% na assinatura do contrato e o restante no dia da festa. Cartão de crédito ou débito." },
         { t: "mkphoto", img: "img/mk-tema.jpg", alt: "Mesa decorada com tema de dinossauros e balões verdes", title: "3. Decore do\nseu jeito", pill: "Salão liberado a partir das 9h" },
         { t: "mkphoto", img: "img/mk-festa-mesa.jpg", alt: "Crianças sorrindo em volta da mesa durante a festa", title: "4. É só\naproveitar", pill: "Monitoras, limpeza e ar-condicionado" },
-        { t: "mktext", title: "Comece pelo\npasso 1", box: "WhatsApp 47 98807-4556" }
+        { t: "mktext", title: "Comece pelo\npasso 1", box: "WhatsApp (47) 98807-4556" }
       ],
-      caption: "Organizar festa infantil pode ser simples 🎉 No Mundo Kids é assim: escolheu a data, reservou com 50%, decorou do seu jeito e pronto, é só curtir. Monitoras, limpeza e ar-condicionado já estão inclusos.\n\nChama no WhatsApp 47 98807-4556 e comece pelo passo 1.",
+      caption: "Organizar festa infantil pode ser simples 🎉 No Mundo Kids é assim: escolheu a data, reservou com 50%, decorou do seu jeito e pronto, é só curtir. Monitoras, limpeza e ar-condicionado já estão inclusos.\n\nComece pelo passo 1!\n\n📲 Reservas e informações: WhatsApp (47) 98807-4556\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Comece pelo passo 1 no WhatsApp",
       source: "Fotos da pasta aniversários com tratamento de cor. Pagamento e regras da mensagem padrão do salão. O valor do aluguel não aparece no post."
     },
@@ -390,15 +409,15 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
       brand: "mundokids", date: "Qui 19/11", format: "Feed · foto 4:5", goal: "Trazer visita", ads: false,
       headline: "Feriado é no Mundo Kids",
       slides: [{ t: "mkphoto", img: "img/mk-feriado.jpg", alt: "Criança descendo o escorregador direto no piscinão de bolinhas", title: "Feriado é\nno Mundo Kids", pill: "Sexta, 20/11 · das 9h às 19h", box: "E ainda é Dia Mundial da Criança!" }],
-      caption: "Sexta (20/11) é feriado, e o programa da família é no Mundo Kids! 💛 De quebra, é Dia Mundial da Criança.\n\nEstamos abertos no feriado e no sábado, das 9h às 19h (no domingo, 22/11, a FIP fecha). Te esperamos!",
+      caption: "Sexta (20/11) é feriado, e o programa da família é no Mundo Kids! 💛 De quebra, é Dia Mundial da Criança.\n\nEstamos abertos no feriado e no sábado, das 9h às 19h (no domingo, 22/11, a FIP fecha).\n\nVenha brincar com a gente!\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Programa de feriado garantido",
       source: "Foto profissional do acervo com tratamento de cor. Horário da agenda da FIP."
     },
     "mk-07": {
       brand: "mundokids", date: "Qua 25/11", format: "Feed · arte 4:5", goal: "Vender festas", ads: true,
       headline: "Festas de novembro e dezembro",
-      slides: [{ t: "calendar", small: "Festas de fim de ano", month: "Dezembro", startDow: 2, days: 31, hint: "Consulte disponibilidade: WhatsApp 47 98807-4556" }],
-      caption: "Ainda dá tempo! 🗓️ Garanta a sua festa de novembro e dezembro no salão do Mundo Kids.\n\nConsulte a disponibilidade da sua data pelo WhatsApp 47 98807-4556.",
+      slides: [{ t: "calendar", small: "Festas de fim de ano", month: "Dezembro", startDow: 2, days: 31, hint: "Consulte disponibilidade: WhatsApp (47) 98807-4556" }],
+      caption: "Ainda dá tempo! 🗓️ Garanta a sua festa de novembro e dezembro no salão do Mundo Kids.\n\nConsulte a disponibilidade da sua data.\n\n📲 Reservas e informações: WhatsApp (47) 98807-4556\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Consulte disponibilidade",
       todo: ["Se vai ter condição especial de Black Friday para festas"],
       source: "Arte com calendário no mesmo padrão do calendário de setembro do perfil. Sem listar datas: chamada para consultar disponibilidade."
@@ -407,7 +426,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
       brand: "mundokids", date: "Sex 27/11", format: "Feed · foto 4:5", goal: "Trazer visita", ads: false,
       headline: "Black Friday na FIP, diversão no Mundo Kids",
       slides: [{ t: "mkphoto", img: "img/mk-familia.jpg", alt: "Pai, mãe e filho sorrindo no piscinão de bolinhas", title: "Black Friday\nna FIP", pill: "Diversão no Mundo Kids", fip: true, low: true }],
-      caption: "Dia de garimpar as ofertas da Black Friday na FIP? Traz a criançada 🛍️🎈 A partir de 4 anos, os pequenos brincam no Mundo Kids enquanto você aproveita as ofertas (menores de 4 entram com um adulto).\n\nSexta (27/11) e sábado, das 9h às 19h. Passaporte infantil a R$40.",
+      caption: "Dia de garimpar as ofertas da Black Friday na FIP? Traz a criançada 🛍️🎈 A partir de 4 anos, os pequenos brincam no Mundo Kids enquanto você aproveita as ofertas (menores de 4 entram com um adulto).\n\nSexta (27/11) e sábado, das 9h às 19h. Passaporte infantil a R$40,00.\n\nVenha brincar com a gente!\n\n📍 Parque Mundo Kids, em anexo à FIP Feira da Moda.\nRod. Antônio Heil, Km 23, nº 3800 – Santa Terezinha, Brusque (SC).",
       cta: "Programa completo para a família",
       todo: ["Se terá condição especial no passaporte na Black Friday"],
       source: "Foto do acervo com tratamento de cor; título na parte de baixo para não cobrir o rosto da criança. Post em collab com o perfil da FIP."
@@ -455,25 +474,23 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-01-01.jpg",
+    "img": "img/plaza-v6/pr-01-01.jpg",
     "alt": "Torre do Plaza Rivel com céu azul e o texto Vários negócios, um endereço"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-01-02.jpg",
-    "alt": "Foto aérea do Plaza com a manchete 11 parceiros no mesmo prédio"
+    "img": "img/plaza-v6/pr-01-02-v7.jpg",
+    "alt": "Foto aérea do Plaza e do estacionamento com a manchete Tudo no mesmo prédio, com amplo estacionamento"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-01-03.jpg",
+    "img": "img/plaza-v6/pr-01-03.jpg",
     "alt": "Fachada do Plaza com a chamada Onde estamos e o endereço embaixo"
    }
   ],
-  "caption": "Vários negócios, um só endereço. 🏢\n\nNo Plaza Rivel, no Centro 2 de Brusque, você almoça, corta o cabelo, grava o seu podcast, treina jiu-jitsu, faz pilates e ainda resolve advogado, seguro e crédito imobiliário, tudo no mesmo prédio.\n\nNos próximos posts, você vai conhecer cada um dos nossos 11 parceiros. Salve este post e venha nos visitar.\n\n📍 R. Gustavo Schlösser, 67 · Centro 2 · Brusque (SC)",
+  "caption": "Vários negócios, um só endereço. 🏢\n\nNo Plaza Rivel, no Centro 2 de Brusque, você almoça, corta o cabelo, grava o seu podcast, treina jiu-jitsu, faz pilates e ainda resolve advogado, seguro e crédito imobiliário, tudo no mesmo prédio, com amplo estacionamento.\n\nNos próximos posts, você vai conhecer cada um dos nossos parceiros. Salve este post e venha nos visitar.\n\n📍 R. Gustavo Schlösser, 67 · Centro 2 · Brusque (SC)\n🚗 Amplo estacionamento",
   "cta": "Salve e venha conhecer",
-  "todo": [
-   "Se há estacionamento para clientes (as fotos mostram vagas na frente)"
-  ],
+  "todo": [],
   "source": "Drive: IMG_7922 (torre), DJI_0205 (drone) e IMG_7930 (fachada)."
  },
  "pr-02": {
@@ -501,66 +518,66 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-01.jpg",
+    "img": "img/plaza-v6/pr-02-01.jpg",
     "alt": "Foto aérea com o texto Conheça os 11 parceiros do Plaza Rivel"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-02.jpg",
+    "img": "img/plaza-v6/pr-02-02.jpg",
     "alt": "Card Lúmina Gourmet: chef atrás da mesa de pratos"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-03.jpg",
+    "img": "img/plaza-v6/pr-02-03.jpg",
     "alt": "Card Clemente Barbearia: detalhe da tesoura no corte"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-04.jpg",
+    "img": "img/plaza-v6/pr-02-04.jpg",
     "alt": "Card Seven7 Estúdio: estúdio de gravação com microfones"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-05.jpg",
+    "img": "img/plaza-v6/pr-02-05.jpg",
     "alt": "Card Rilion Gracie: letreiro na fachada do Plaza"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-06.jpg",
+    "img": "img/plaza-v6/pr-02-06.jpg",
     "alt": "Card Studio Fit Life: ainda sem foto"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-07.jpg",
+    "img": "img/plaza-v6/pr-02-07.jpg",
     "alt": "Card Scalvim Roda Advogados: nomes dos advogados na fachada"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-08.jpg",
+    "img": "img/plaza-v6/pr-02-08.jpg",
     "alt": "Card Dra. Cássia Peters Lauritzen no escritório"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-09.jpg",
+    "img": "img/plaza-v6/pr-02-09.jpg",
     "alt": "Card Voltolini Seguros: equipe na frente da corretora"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-10.jpg",
-    "alt": "Card Diamante Crédito Imobiliário: consultora no escritório"
+    "img": "img/plaza-v6/pr-02-10.jpg",
+    "alt": "Card Diamante Crédito Imobiliário: consultor de terno"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-11.jpg",
+    "img": "img/plaza-v6/pr-02-11.jpg",
     "alt": "Card Avanti Fios: letreiro no centro de distribuição"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-02-12.jpg",
+    "img": "img/plaza-v6/pr-02-12.jpg",
     "alt": "Card Portal Visão+: equipe do portal"
    }
   ],
-  "caption": "Salve para consultar quando precisar. 📌 Estes são os 11 parceiros do Plaza Rivel:\n\n🍽️ Lúmina Gourmet: complexo gastronômico internacional @luminabrusque\n💈 Clemente Barbearia: cortes clássicos e modernos @clementebarbearia_\n🎙️ Seven7 Estúdio: vídeos, podcasts e entrevistas @seven7_estudio\n🥋 Rilion Gracie: jiu-jitsu @riliongracie.brusque\n🧘 Studio Fit Life: pilates @studiofitlife\n⚖️ Scalvim Roda Advogados @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS e aposentadorias @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário @diamantecreditoimb\n🧵 Avanti Fios: fios para a indústria têxtil @avantifios\n📰 Portal Visão+: notícias de Brusque @portalvisaomais\n\nMarque quem precisa conhecer algum deles.",
+  "caption": "Salve para consultar quando precisar. 📌 Estes são os 11 parceiros do Plaza Rivel:\n\n🍽️ Lúmina Gourmet: complexo gastronômico internacional @luminabrusque\n💈 Clemente Barbearia: cortes clássicos e modernos @clementebarbearia_\n🎙️ Seven7 Estúdio: vídeos, podcasts e entrevistas @seven7_estudio\n🥋 Rilion Gracie: jiu-jitsu @riliongracie.brusque\n🧘 Studio Fit Life: pilates @studiofitlife\n⚖️ Scalvim Roda Advogados: escritório de advocacia @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS e aposentadorias @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário @diamantecreditoimb\n🧵 Avanti Fios: fios para a indústria têxtil @avantifios\n📰 Portal Visão+: notícias de Brusque @portalvisaomais\n\nMarque quem precisa conhecer algum deles.",
   "cta": "Salve para consultar",
   "todo": [
    "Se são mesmo 11 parceiros hoje (algum entrou ou saiu?)",
@@ -581,22 +598,22 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-03-01.jpg",
+    "img": "img/plaza-v6/pr-03-01.jpg",
     "alt": "Sala com escada e a chamada Seu negócio pode estar aqui, com o contato embaixo"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-03-02.jpg",
+    "img": "img/plaza-v6/pr-03-02.jpg",
     "alt": "Sala vazia com trilhos de luz"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-03-03.jpg",
+    "img": "img/plaza-v6/pr-03-03.jpg",
     "alt": "Sala de pé-direito alto com o selo circular Salas disponíveis"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-03-04.jpg",
+    "img": "img/plaza-v6/pr-03-04.jpg",
     "alt": "Sala com a mensagem Agende sua visita e o contato"
    }
   ],
@@ -625,27 +642,27 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-04-01.jpg",
+    "img": "img/plaza-v6/pr-04-01.jpg",
     "alt": "Capa: barbeiro passando a máquina, com a manchete Quem faz o Plaza"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-04-02.jpg",
+    "img": "img/plaza-v6/pr-04-02.jpg",
     "alt": "Cena: dois barbeiros atendendo no salão"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-04-03.jpg",
+    "img": "img/plaza-v6/pr-04-03.jpg",
     "alt": "Cena: detalhe da tesoura no cabelo"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-04-04.jpg",
+    "img": "img/plaza-v6/pr-04-04.jpg",
     "alt": "Cena: acabamento na navalha"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-04-05.jpg",
+    "img": "img/plaza-v6/pr-04-05.jpg",
     "alt": "Cena: cliente com o corte pronto, de perfil"
    }
   ],
@@ -684,22 +701,22 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-05-01.jpg",
+    "img": "img/plaza-v6/pr-05-01.jpg",
     "alt": "Capa: foto aérea do Plaza, só com a aba Plaza por dentro"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-05-02.jpg",
+    "img": "img/plaza-v6/pr-05-02.jpg",
     "alt": "Cena: chef do Lúmina no salão"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-05-03.jpg",
+    "img": "img/plaza-v6/pr-05-03.jpg",
     "alt": "Cena: letreiro da Rilion Gracie na fachada"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-05-04.jpg",
+    "img": "img/plaza-v6/pr-05-04.jpg",
     "alt": "Cena a gravar: aparelhos de pilates do Studio Fit Life"
    }
   ],
@@ -737,24 +754,23 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-06-01.jpg",
+    "img": "img/plaza-v6/pr-06-01.jpg",
     "alt": "Capa: letreiro Avanti no centro de distribuição, com a assinatura Plaza Rivel e Avanti Fios"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-06-02.jpg",
+    "img": "img/plaza-v6/pr-06-02.jpg",
     "alt": "Centro de distribuição da Avanti com a manchete +25 anos"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-06-03.jpg",
-    "alt": "Fachada do Plaza com a loja da Avanti e o selo circular Avanti Fios aqui no Plaza Rivel"
+    "img": "img/plaza-v6/pr-06-03.jpg",
+    "alt": "Fachada do Plaza com a loja da Avanti e o selo circular Avanti Fios, escritório no Plaza Rivel"
    }
   ],
-  "caption": "Vitrine da semana: Avanti Fios. 🧵\n\nHá mais de 25 anos apoiando a indústria, a Avanti distribui fios para tecelagens, malharias, barbantes, redes, meias, fitas e artesanato. E está aqui no Plaza Rivel, com [o que funciona no Plaza: escritório, showroom ou atendimento].\n\nConheça: @avantifios",
+  "caption": "Vitrine da semana: Avanti Fios. 🧵\n\nHá mais de 25 anos apoiando a indústria, a Avanti distribui fios para tecelagens, malharias, barbantes, redes, meias, fitas e artesanato. E o escritório administrativo dela fica aqui no Plaza Rivel.\n\nConheça: @avantifios",
   "cta": "Conheça a Avanti",
   "todo": [
-   "O que a Avanti tem no Plaza",
    "Se a Avanti aceita o collab"
   ],
   "source": "Cards 1 e 2: perfil @avantifios (letreiro e CD Avanti). Card 3: Drive IMG_7819 (fachada no Plaza).",
@@ -768,7 +784,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "goal": "Mostrar os parceiros",
   "ads": false,
   "headline": "Direito, seguros e crédito num só endereço",
-  "service": "Advocacia, direito previdenciário, seguros e crédito imobiliário",
+  "service": "Escritório de advocacia, direito previdenciário, seguros e crédito imobiliário",
   "handles": [
    "@scalvimroda",
    "@dracassiapeterslauritzen",
@@ -778,40 +794,38 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-07-01.jpg",
+    "img": "img/plaza-v6/pr-07-01.jpg",
     "alt": "Fachada com os nomes dos advogados e a manchete Direito, seguros e crédito"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-07-02.jpg",
+    "img": "img/plaza-v6/pr-07-02.jpg",
     "alt": "Card Scalvim Roda Advogados"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-07-03.jpg",
+    "img": "img/plaza-v6/pr-07-03.jpg",
     "alt": "Card Dra. Cássia Peters Lauritzen"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-07-04.jpg",
+    "img": "img/plaza-v6/pr-07-04.jpg",
     "alt": "Card Voltolini Seguros"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-07-05.jpg",
+    "img": "img/plaza-v6/pr-07-05.jpg",
     "alt": "Card Diamante Crédito Imobiliário"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-07-06.jpg",
+    "img": "img/plaza-v6/pr-07-06.jpg",
     "alt": "Fachada com a mensagem Marque quem precisa"
    }
   ],
-  "caption": "Direito, seguros e crédito num só endereço. ⚖️🛡️🏠\n\n⚖️ Scalvim Roda Advogados: sala D04, piso superior @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS, aposentadorias, BPC/LOAS e benefício por incapacidade @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário: crédito para o seu imóvel @diamantecreditoimb\n\nMarque quem precisa resolver isso ainda este ano.",
+  "caption": "Direito, seguros e crédito num só endereço. ⚖️🛡️🏠\n\n⚖️ Scalvim Roda Advogados: escritório de advocacia, sala D04, piso superior @scalvimroda\n📄 Dra. Cássia Peters Lauritzen: INSS, aposentadorias, BPC/LOAS e benefício por incapacidade @dracassiapeterslauritzen\n🛡️ Voltolini Seguros: corretora há 36 anos @voltoliniseguros\n🏠 Diamante Crédito Imobiliário: crédito para o seu imóvel @diamantecreditoimb\n\nMarque quem precisa resolver isso ainda este ano.",
   "cta": "Marque quem precisa",
-  "todo": [
-   "Áreas de atuação da Scalvim Roda, para a legenda"
-  ],
+  "todo": [],
   "source": "Capa e card final: Drive IMG_7817 e IMG_7818 (fachada). Cards: perfis @dracassiapeterslauritzen, @voltoliniseguros e @diamantecreditoimb; Scalvim Roda pela fachada."
  },
  "pr-08": {
@@ -830,12 +844,12 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-08-01.jpg",
+    "img": "img/plaza-v6/pr-08-01.jpg",
     "alt": "Capa: estúdio do Seven7 com o texto Quem faz o Plaza, Seven7 Estúdio"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-08-02.jpg",
+    "img": "img/plaza-v6/pr-08-02.jpg",
     "alt": "Cena: letreiro luminoso No Ar aceso no escuro"
    }
   ],
@@ -870,23 +884,23 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-09-01.jpg",
-    "alt": "Capa: chef do Lúmina atrás da mesa de pratos, com a assinatura Plaza Rivel e Lúmina Gourmet"
+    "img": "img/plaza-v6/pr-09-01.jpg",
+    "alt": "Capa: varanda do O'Italiano com uma cliente segurando uma taça de vinho, só com a assinatura Plaza Rivel e Lúmina Gourmet"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-09-02.jpg",
+    "img": "img/plaza-v6/pr-09-02.jpg",
+    "alt": "Chef do Lúmina com o selo circular Brasil, Uruguai, Itália, México, Japão"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v6/pr-09-03.jpg",
     "alt": "Taça de vinho com o texto Uma pausa à mesa antes do feriado"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-09-03.jpg",
-    "alt": "Chef de dólmã branco com um prato e o selo circular Brasil, Uruguai, Itália, México, Japão"
-   },
-   {
-    "t": "img",
-    "img": "img/plaza-v5/pr-09-04.jpg",
-    "alt": "Fachada do Lúmina Gourmet no Plaza"
+    "img": "img/plaza-v6/pr-09-04.jpg",
+    "alt": "Fachada do Lúmina Gourmet no Plaza, sem pessoas"
    }
   ],
   "caption": "Antes do feriado, uma pausa à mesa. 🍷\n\nO Lúmina Gourmet reúne cozinhas do Brasil, Uruguai, Itália, México e Japão num só complexo, com espaço kids e recreadora para a família aproveitar sem pressa.\n\nNesta sexta (20/11), feriado, o Lúmina abre [horário do feriado].\n\n@luminabrusque",
@@ -895,183 +909,139 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
    "Horário do Lúmina no feriado de 20/11",
    "Se o espaço kids funciona no feriado"
   ],
-  "source": "Cards 1 a 3: perfil @luminabrusque. Card 4: Drive DJI_0208 (fachada do Lúmina).",
+  "source": "Cards 1 a 3: perfil @luminabrusque (varanda do O'Italiano, chef e vinho). Card 4: Drive DJI_0208 (fachada), recortada sem a pessoa.",
   "headline": "Antes do feriado, uma pausa à mesa"
  },
  "pr-10": {
   "brand": "plaza",
   "date": "Seg 23/11",
-  "quadro": "Vitrine · Black Friday",
-  "format": "Carrossel · 1 card por oferta",
-  "goal": "Trazer visita",
-  "ads": true,
-  "headline": "Black Friday no Plaza",
-  "service": "Ofertas dos parceiros que aderirem à Black Friday",
+  "quadro": "Vitrine",
+  "format": "Feed · foto 4:5",
+  "goal": "Mostrar um parceiro",
+  "ads": false,
+  "headline": "Notícias de Brusque, feitas aqui no Plaza Rivel",
+  "service": "Portal Visão+: portal de notícias de Brusque e região",
+  "handles": [
+   "@portalvisaomais"
+  ],
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-10-01.jpg",
-    "alt": "Fachada do Plaza com a mensagem As ofertas dos nossos parceiros, num só endereço, e o título Black Friday"
-   },
-   {
-    "t": "img",
-    "img": "img/plaza-v5/pr-10-02.jpg",
-    "alt": "Modelo de card de oferta: foto do produto, nome do parceiro, oferta e @"
-   },
-   {
-    "t": "img",
-    "img": "img/plaza-v5/pr-10-03.jpg",
-    "alt": "Fachada com o selo circular Black Friday 27.11"
+    "img": "img/plaza-v6/pr-10-01.jpg",
+    "alt": "Equipe do Portal Visão+ com a manchete Notícias de Brusque, feitas aqui no Plaza Rivel"
    }
   ],
-  "caption": "A Black Friday do Plaza Rivel é nesta sexta, 27/11. 🖤\n\nSeparamos as ofertas dos nossos parceiros:\n[lista de ofertas: parceiro, oferta e validade]\n\nSalve este post e marque quem vai com você.",
-  "cta": "Salve e marque alguém",
+  "caption": "Sabia que o Portal Visão+ fica aqui no Plaza Rivel? 📰\n\nO portal acompanha o que acontece em Brusque e região, com jornalismo 100% digital, pensado para o jeito que você consome notícia.\n\nSiga @portalvisaomais e fique por dentro.",
+  "cta": "Siga o @portalvisaomais",
   "todo": [
-   "Quais parceiros participam e as ofertas, até sexta 20/11",
-   "Uma foto de cada oferta (produto ou serviço)",
-   "Verba e público do anúncio"
+   "Se o Portal Visão+ topa o collab"
   ],
-  "source": "Capa: Drive IMG_7929 (fachada). Um card por parceiro participante, no modelo do card 2.",
-  "adsLabel": "Impulsionar"
+  "source": "Foto: perfil @portalvisaomais (equipe), recortada sem o texto do post original."
  },
  "pr-11": {
   "brand": "plaza",
   "date": "Qua 25/11",
   "quadro": "Locação",
-  "format": "Reels · 30 s",
+  "format": "Reels · 20 s · fotos com texto animado",
   "goal": "Alugar salas",
   "ads": true,
   "reel": true,
   "headline": "Uma sala por dentro",
-  "service": "Locação: uma sala livre por dentro e o depoimento de um parceiro",
-  "handles": [
-   "@voltoliniseguros"
-  ],
+  "service": "Locação: uma sala livre por dentro, em fotos com texto animado",
+  "handles": [],
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-11-01.jpg",
+    "img": "img/plaza-v6/pr-11-01.jpg",
     "alt": "Capa: corredor do Plaza com a chamada Uma sala por dentro e o contato"
    },
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-11-02.jpg",
-    "alt": "Cena: sala vazia com piso de madeira e janela grande"
+    "img": "img/plaza-v6/pr-11-02.jpg",
+    "alt": "Cena: mezanino com escada e o texto Mezanino"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v6/pr-11-03.jpg",
+    "alt": "Cena: iluminação em trilho com o texto Iluminação"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v6/pr-11-04.jpg",
+    "alt": "Cena: janela ampla e piso de madeira com o texto Janela ampla"
+   },
+   {
+    "t": "img",
+    "img": "img/plaza-v6/pr-11-05.jpg",
+    "alt": "Cartela final: Agende sua visita e o contato"
    }
   ],
   "steps": [
-   "Corredor do Plaza",
-   "Porta da sala abrindo",
-   "Sala vazia: luz, piso e janelas",
-   "Depoimento de um parceiro sobre por que escolheu o Plaza (sugestão: Voltolini Seguros)",
-   "Cartela: salas disponíveis + WhatsApp"
+   "Capa: corredor com a chamada Uma sala por dentro",
+   "Mezanino com escada: o texto entra deslizando do lado",
+   "Iluminação em trilho",
+   "Janela ampla e piso de madeira",
+   "Cartela: Agende sua visita (47) 98817-1437"
   ],
   "caption": "Veja uma sala livre do Plaza Rivel por dentro. 👀\n\nSão [metragem] no Centro 2 de Brusque, com 11 parceiros como vizinhos. E quem já está aqui conta por que escolheu o Plaza.\n\nAgende uma visita pelo (47) 98817-1437.",
   "cta": "Agende uma visita",
   "todo": [
-   "Qual sala mostrar e a metragem",
-   "Qual parceiro grava o depoimento",
+   "Se as fotos são da mesma sala, e qual a metragem",
    "Se o (47) 98817-1437 é o WhatsApp da locação",
    "Verba e público do anúncio"
   ],
-  "source": "Capa: Drive IMG_2660 (corredor). Cena: Drive IMG_2655 (sala). O depoimento é gravado.",
+  "source": "Fotos do Drive (IMG_2660, 2661, 2653, 2655 e 2654) com cor e luz corrigidas. O vídeo é montado só com as fotos e o texto animado, sem gravação.",
   "stepsTitle": "Roteiro do reels",
   "adsLabel": "Impulsionar"
  },
  "pr-12": {
   "brand": "plaza",
   "date": "Sex 27/11",
-  "quadro": "Vitrine · Black Friday",
-  "format": "Reels · 15 a 20 s",
-  "goal": "Trazer visita",
+  "quadro": "Vitrine",
+  "format": "Feed · foto 4:5",
+  "goal": "Mostrar um parceiro",
   "ads": false,
-  "reel": true,
-  "photoOnly": true,
-  "highlight": "Hoje é Black Friday no Plaza",
-  "service": "O dia: movimento no prédio e parceiros mostrando as ofertas",
+  "headline": "O crédito do seu próximo imóvel",
+  "service": "Diamante Crédito Imobiliário: crédito imobiliário, com mais de 50 unidades",
+  "handles": [
+   "@diamantecreditoimb"
+  ],
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-12-01.jpg",
-    "alt": "Capa: vista aérea da galeria e do estacionamento, só com a aba Black Friday"
+    "img": "img/plaza-v6/pr-12-01.jpg",
+    "alt": "Consultora da Diamante no escritório, com a manchete O crédito do seu próximo imóvel"
    }
   ],
-  "steps": [
-   "Drone ou fachada com movimento",
-   "Dois ou três parceiros mostram a oferta, 3 s cada",
-   "Cartela: hoje até [horário]"
-  ],
-  "caption": "Hoje é Black Friday no Plaza Rivel! 🖤\n\nPasse aqui e aproveite as ofertas dos nossos parceiros até [horário].\n\n📍 R. Gustavo Schlösser, 67 · Centro 2 · Brusque (SC)",
-  "cta": "Passe aqui hoje",
+  "caption": "O crédito do seu próximo imóvel pode começar aqui no Plaza. 🏠\n\nA Diamante Crédito Imobiliário tem mais de 50 unidades, e uma delas fica aqui no Plaza Rivel, no Centro 2 de Brusque.\n\nConheça: @diamantecreditoimb",
+  "cta": "Conheça a Diamante",
   "todo": [
-   "Horário das ofertas no dia",
-   "Quem grava no dia"
+   "Se a Diamante topa o collab"
   ],
-  "source": "Capa: Drive DJI_0211 (drone). Vídeo: gravar no dia.",
-  "stepsTitle": "Roteiro do reels",
-  "headline": "Hoje é Black Friday no Plaza"
+  "source": "Foto: perfil @diamantecreditoimb, recortada sem o texto do post original."
  },
  "pr-13": {
   "brand": "plaza",
   "date": "Seg 30/11",
-  "quadro": "Quem faz o Plaza",
-  "format": "Reels · 20 s",
+  "quadro": "Institucional",
+  "format": "Feed · foto 4:5",
   "goal": "Aproximar do público",
   "ads": false,
-  "reel": true,
-  "headline": "Quem cuida do Plaza todos os dias",
+  "headline": "Dia do Síndico: obrigado por cuidar do Plaza",
   "service": "Dia do Síndico: administração, limpeza e segurança do prédio",
   "slides": [
    {
     "t": "img",
-    "img": "img/plaza-v5/pr-13-01.jpg",
-    "alt": "Capa: torre do Plaza com a mensagem Obrigado a quem cuida do Plaza e o título Dia do Síndico"
-   },
-   {
-    "t": "img",
-    "img": "img/plaza-v5/pr-13-02.jpg",
-    "alt": "Foto a tirar até 28/11: equipe do Plaza"
+    "img": "img/plaza-v6/pr-13-01.jpg",
+    "alt": "Fachada do Plaza com árvores e céu azul, com o texto 30 de novembro, Dia do Síndico, obrigado por cuidar do Plaza"
    }
-  ],
-  "steps": [
-   "Equipe reunida na entrada",
-   "Administração",
-   "Limpeza",
-   "Segurança e portaria",
-   "Cartela: obrigado a quem cuida do Plaza"
   ],
   "caption": "Hoje é Dia do Síndico. 🙌\n\nObrigado a quem cuida do Plaza Rivel todos os dias: administração, limpeza e segurança. É graças a vocês que parceiros e clientes encontram tudo funcionando.\n\nFeliz Dia do Síndico, [nome do síndico]!",
   "cta": "Agradecer a equipe",
   "todo": [
-   "Nome do síndico e se ele quer aparecer",
-   "Foto ou vídeo da equipe até 28/11"
+   "Nome do síndico, para a legenda"
   ],
-  "source": "Capa provisória: Drive IMG_7919 (torre). A final usa a foto da equipe.",
-  "stepsTitle": "Roteiro do reels"
- },
- "pr-perfil": {
-  "brand": "plaza",
-  "date": "30/11",
-  "quadro": "Grade do perfil",
-  "format": "13 posts novos + os atuais",
-  "goal": "Ver o conjunto",
-  "ads": false,
-  "free": true,
-  "headline": "Como o perfil fica no fim de novembro",
-  "slides": [
-   {
-    "t": "img",
-    "img": "img/plaza-v5/pr-previa-perfil.jpg",
-    "free": true,
-    "alt": "Prévia do perfil @plazarivel com os 13 posts novos na grade, os três fixados no topo e os posts antigos embaixo"
-   }
-  ],
-  "list": [
-   "Fixados no topo: apresentação, guia dos parceiros e salas",
-   "Os padrões do próprio perfil se alternam: foto pura com assinatura, manchete lateral em itálico, editorial com cursiva, chamada em caixa alta, mensagem com logo no topo e selo circular",
-   "Destaque novo de Black Friday, de 23 a 30/11, ao lado de Locação, Serviços e Sobre Nós"
-  ],
-  "source": "Montagem com as pré-artes desta aba e os posts que já estão no perfil."
+  "source": "Foto: Drive IMG_7926 (fachada)."
  }
 });
   BRANDS.push({
@@ -1080,17 +1050,9 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
  "name": "Plaza Rivel",
  "initials": "PR",
  "tagInHeader": true,
- "intro": "13 posts em novembro, 3 por semana, cada um mostrando o serviço de um ou mais parceiros. Começa pela prévia de como a grade fica no fim do mês.",
+ "intro": "13 posts em novembro, 3 por semana, cada um mostrando o serviço de um ou mais parceiros.",
  "notes": [],
  "weeks": [
-  {
-   "label": "Prévia do perfil",
-   "span": "como a grade fica em 30/11",
-   "posts": [
-    "pr-perfil"
-   ],
-   "noCount": true
-  },
   {
    "label": "Semana 1",
    "span": "4 a 6 de novembro · os três viram os fixados",
@@ -1120,7 +1082,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   },
   {
    "label": "Semana 4",
-   "span": "23 a 27 de novembro · Black Friday 27/11",
+   "span": "23 a 27 de novembro",
    "posts": [
     "pr-10",
     "pr-11",
@@ -1137,6 +1099,14 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
  ]
 });
   BRANDS.find(b => b.id === "mundokids").next = "plaza";
+
+  /* ---------- contas com planejamento em andamento: a aba já existe e os posts entram quando o planejamento ficar pronto ---------- */
+  [
+    { id: "fip", name: "FIP Feira da Moda", initials: "FIP" },
+    { id: "centermix", name: "CenterMix", initials: "CM" },
+    { id: "bierskald", name: "Bier Skald", initials: "BS" },
+    { id: "ddwc", name: "DDWC", initials: "DD" }
+  ].forEach(b => BRANDS.push(Object.assign({ kind: "wip", wip: true, intro: "", notes: [], weeks: [] }, b)));
 
   /* ---------- prévia ---------- */
   // Título no padrão do Mundo Kids: linhas alternando rosa e verde (ou uma cor só)
@@ -1161,8 +1131,13 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
       h("div", { class: "fz-logo", "aria-hidden": "true" }, [h("small", { text: "FAZENDA" }), document.createTextNode("Paraíso")]),
       h("div", { class: "fz-block" }, [h("div", { class: "fz-l1", text: s.l1 }), h("div", { class: "fz-l2", text: s.l2 }), h("div", { class: "fz-l3", text: s.l3 }), h("div", { class: "fz-date" }, [h("i"), h("span", { text: s.tag })])])
     ]);
+    if (s.t === "mksplit") return h("div", { class: "slide mk-split" + (s.tone ? " " + s.tone : "") }, [
+      h("div", { class: "ph" }, [h("img", { src: s.img, alt: s.alt, loading: "lazy", style: "object-position: 50% " + (s.py || "50%") })]),
+      mkLogo(),
+      h("div", { class: "band" }, [mkTitle(s.title, null, s.flat ? "flat" : ""), s.pill ? h("div", { class: "mk-pill", text: s.pill }) : null])
+    ]);
     if (s.t === "mktext") return h("div", { class: "slide mk-text" + (s.tone ? " " + s.tone : "") }, [
-      mkLogo(), mkTitle(s.title), s.pill ? h("div", { class: "mk-pill", text: s.pill }) : null, s.box ? mkBox(s.box) : null
+      mkLogo(), mkTitle(s.title, null, s.flat ? "flat" : ""), s.pill ? h("div", { class: "mk-pill", text: s.pill }) : null, s.box ? mkBox(s.box) : null
     ]);
     if (s.t === "img") return h("div", { class: "slide" + (s.free ? " free" : "") }, [h("img", { src: s.img, alt: s.alt, loading: "lazy" })]);
     if (s.t === "pending") return h("div", { class: "slide pending" }, [h("b", { text: s.title }), h("span", { text: s.sub })]);
@@ -1273,7 +1248,6 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
       post.todo.forEach(t => ul.append(h("li", { text: t })));
       blocks.push(h("div", { class: "block" }, [h("span", { class: "eyebrow", text: "Falta confirmar" }), ul]));
     }
-    blocks.push(h("p", { class: "source", text: "Material: " + post.source }));
 
     // aprovação
     const pill = h("span", { class: "pill pendente", text: "Aguardando aprovação" });
@@ -1316,7 +1290,8 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
     summaries[b.id] = summary;
     const notes = h("div", { class: "brand-notes" });
     b.notes.forEach(n => { const ul = h("ul"); n.items.forEach(i => ul.append(h("li", { text: i }))); notes.append(h("section", null, [h("h3", { text: n.title }), ul])); });
-    const kids = [h("div", { class: "brand-head" }, [h("h2", { text: b.name }), h("p", { class: "intro", text: b.intro }), summary])];
+    const kids = [h("div", { class: "brand-head" }, [h("h2", { text: b.name }), b.intro ? h("p", { class: "intro", text: b.intro }) : null, summary])];
+    if (b.wip) kids.push(h("div", { class: "wip-box" }, [h("span", { text: "Os posts desta conta aparecem aqui para aprovação assim que ficarem prontos." })]));
     b.weeks.forEach(w => {
       if (w.label) kids.push(h("h3", { class: "week-label" }, [document.createTextNode(w.label), h("span", { text: w.span })]));
       w.posts.forEach(pid => kids.push(renderPost(pid, POSTS[pid], b)));
@@ -1343,7 +1318,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
   window.addEventListener("hashchange", () => select((location.hash || "").replace("#", ""), false));
 
   /* ---------- aprovações (planilha Google via Apps Script) ---------- */
-  // Endereço do Apps Script publicado como app da Web. Enquanto estiver vazio, a página só mostra a pauta.
+  // Endereço do Apps Script publicado como app da Web. Enquanto estiver vazio, a página só mostra o planejamento.
   const API_URL = "";
   const NAME_KEY = "pauta-fip-nome";
   let mode = "loading";
@@ -1373,7 +1348,7 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
     mode = m;
     const gates = {
       loading: "Carregando as aprovações…",
-      offline: "As aprovações ainda estão sendo configuradas. Por enquanto, dá para ver a pauta."
+      offline: "As aprovações ainda estão sendo configuradas. Por enquanto, dá para ver o planejamento."
     };
     Object.values(panels).forEach(p => {
       const ready = m === "ready";
@@ -1429,6 +1404,12 @@ mark { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padd
 
   function paintCounts() {
     BRANDS.forEach(b => {
+      if (b.wip) {
+        tabBtns[b.id].count.textContent = "em andamento";
+        tabBtns[b.id].btn.setAttribute("aria-label", b.name + ", planejamento em andamento");
+        summaries[b.id].replaceChildren(h("span", { class: "pill andamento", text: "Planejamento em andamento" }));
+        return;
+      }
       const ids = b.weeks.filter(w => !w.noCount).flatMap(w => w.posts);
       const ok = ids.filter(i => status[i] === "aprovado").length;
       const adj = ids.filter(i => status[i] === "ajuste").length;
